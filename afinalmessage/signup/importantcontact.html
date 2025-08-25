@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Important Contact - A Final Message</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .signup-container {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        width: 100%;
+        max-width: 500px;
+        text-align: center;
+      }
+
+      .logo {
+        color: #007cba;
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-bottom: 30px;
+      }
+
+      .step-indicator {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+      }
+
+      .step {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: #e0e0e0;
+        color: #666;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 5px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .step.active {
+        background: #007cba;
+        color: white;
+      }
+
+      .step.completed {
+        background: #28a745;
+        color: white;
+      }
+
+      h1 {
+        color: #333;
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        color: #666;
+        margin-bottom: 30px;
+        line-height: 1.5;
+      }
+
+      .info-box {
+        background: #e7f3ff;
+        border: 1px solid #b3d9ff;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 30px;
+        text-align: left;
+        color: #004085;
+      }
+
+      .info-box h3 {
+        color: #004085;
+        margin-bottom: 10px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+      }
+
+      .form-group label {
+        display: block;
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 8px;
+        font-size: 14px;
+      }
+
+      .form-group input,
+      .form-group select {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+        font-family: inherit;
+        background: white;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: #007cba;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      .optional-label {
+        color: #999;
+        font-weight: normal;
+      }
+
+      .btn {
+        width: 100%;
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 15px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-top: 10px;
+      }
+
+      .btn:hover {
+        background: #218838;
+        transform: translateY(-2px);
+      }
+
+      .btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .btn-secondary {
+        background: #6c757d;
+        margin-top: 15px;
+      }
+
+      .btn-secondary:hover {
+        background: #545b62;
+      }
+
+      .btn-skip {
+        background: #ffc107;
+        color: #212529;
+        margin-top: 20px;
+      }
+
+      .btn-skip:hover {
+        background: #ffb300;
+      }
+
+      .btn.loading::after {
+        content: " ...";
+        animation: dots 1.5s steps(5, end) infinite;
+      }
+
+      @keyframes dots {
+        0%,
+        20% {
+          color: rgba(0, 0, 0, 0);
+          text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 rgba(0, 0, 0, 0);
+        }
+        40% {
+          color: white;
+          text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 rgba(0, 0, 0, 0);
+        }
+        60% {
+          text-shadow: 0.25em 0 0 white, 0.5em 0 0 rgba(0, 0, 0, 0);
+        }
+        80%,
+        100% {
+          text-shadow: 0.25em 0 0 white, 0.5em 0 0 white;
+        }
+      }
+
+      .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f1aeb5;
+        border-radius: 5px;
+        padding: 12px;
+        margin-bottom: 20px;
+        font-size: 14px;
+      }
+
+      .success-message {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+        border-radius: 5px;
+        padding: 12px;
+        margin-bottom: 20px;
+        font-size: 14px;
+      }
+
+      .completion-notice {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        border-radius: 8px;
+        padding: 20px;
+        margin-top: 20px;
+        text-align: left;
+      }
+
+      .completion-notice h3 {
+        margin-bottom: 10px;
+      }
+
+      .skip-info {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 5px;
+        padding: 15px;
+        margin-top: 20px;
+        font-size: 14px;
+        color: #856404;
+      }
+
+      @media (max-width: 480px) {
+        .signup-container {
+          margin: 20px;
+          padding: 30px 20px;
+        }
+
+        .step-indicator {
+          flex-wrap: wrap;
+        }
+
+        .step {
+          width: 25px;
+          height: 25px;
+          font-size: 12px;
+          margin: 2px;
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="signup-container">
+      <div class="logo">A Final Message</div>
+
+      <div class="step-indicator">
+        <div class="step completed">1</div>
+        <div class="step completed">2</div>
+        <div class="step completed">3</div>
+        <div class="step completed">4</div>
+        <div class="step completed">5</div>
+        <div class="step completed">6</div>
+        <div class="step active">7</div>
+      </div>
+
+      <h1>Important Contact</h1>
+      <p class="subtitle">
+        Add one important professional contact that your inner circle should
+        know about (lawyer, financial advisor, etc.)
+      </p>
+
+      <div class="info-box">
+        <h3>📋 Important Contact</h3>
+        <p>
+          This could be your attorney, financial advisor, doctor, accountant, or
+          any professional that your inner circle should contact. They will NOT
+          receive your final message, but your inner circle will be given their
+          contact information.
+        </p>
+      </div>
+
+      <form id="importantContactForm">
+        <div class="form-group">
+          <label for="contactType">Contact Type</label>
+          <select id="contactType" name="contactType" required>
+            <option value="">Choose contact type...</option>
+            <option value="Executor">Executor</option>
+            <option value="Attorney">Attorney</option>
+            <option value="Financial Advisor">Financial Advisor</option>
+            <option value="Life Insurance">Life Insurance</option>
+            <option value="Accountant">Accountant</option>
+            <option value="Veterinarian">Veterinarian</option>
+            <option value="Pet Care">Pet Care</option>
+            <option value="Physician">Physician</option>
+            <option value="Safe Deposit Box">Safe Deposit Box</option>
+            <option value="Crypto Wallet">Crypto Wallet</option>
+            <option value="Public Storage">Public Storage</option>
+            <option value="Private Vault">Private Vault</option>
+            <option value="Cord Blood Bank">Cord Blood Bank</option>
+            <option value="Genetic Bank">Genetic Bank</option>
+            <option value="Fertility Preservation">
+              Fertility Preservation
+            </option>
+            <option value="529 Plan">529 Plan</option>
+            <option value="Donor Advised Fund">Donor Advised Fund</option>
+            <option value="Philanthropy">Philanthropy</option>
+            <option value="Domain Names">Domain Names</option>
+            <option value="Websites">Websites</option>
+            <option value="Copyrights">Copyrights</option>
+            <option value="Patents">Patents</option>
+            <option value="Trademarks">Trademarks</option>
+            <option value="Art">Art</option>
+            <option value="Funeral Arrangements">Funeral Arrangements</option>
+            <option value="Memberships">Memberships</option>
+            <option value="Loyalty Programs">Loyalty Programs</option>
+            <option value="Family Heirlooms">Family Heirlooms</option>
+            <option value="Retirement Plan">Retirement Plan</option>
+            <option value="Pension Plan">Pension Plan</option>
+            <option value="Private Investments">Private Investments</option>
+            <option value="Business Interests">Business Interests</option>
+            <option value="Business Partners">Business Partners</option>
+            <option value="Real Estate">Real Estate</option>
+            <option value="Season Tickets">Season Tickets</option>
+            <option value="Family or Friend">Family or Friend</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="name">Contact Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            placeholder="Full name of the contact"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="organization"
+            >Organization <span class="optional-label">(Optional)</span></label
+          >
+          <input
+            type="text"
+            id="organization"
+            name="organization"
+            placeholder="Law firm, company, or organization name"
+          />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phone"
+              >Phone Number
+              <span class="optional-label">(Optional)</span></label
+            >
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder="+1 (555) 123-4567"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email"
+              >Email Address
+              <span class="optional-label">(Optional)</span></label
+            >
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="contact@email.com"
+            />
+          </div>
+        </div>
+
+        <button type="submit" class="btn">🎉 Complete Setup</button>
+        <button type="button" class="btn btn-secondary" onclick="goBack()">
+          Back
+        </button>
+        <button type="button" class="btn btn-skip" onclick="skipAndComplete()">
+          Skip & Complete Setup
+        </button>
+      </form>
+
+      <div class="completion-notice">
+        <h3>🎉 Almost Done!</h3>
+        <p>
+          After this step, your A Final Message account will be fully set up and
+          active. You'll be redirected to your account dashboard where you can
+          manage all your settings.
+        </p>
+      </div>
+
+      <div class="skip-info">
+        <strong>ℹ️ You can skip this step</strong> and add important contacts
+        later from your account dashboard.
+      </div>
+    </div>
+
+    <script>
+      let userData = {};
+
+      // Load user data from session storage
+      document.addEventListener("DOMContentLoaded", function () {
+        const storedData = sessionStorage.getItem("afinalmessage_signup");
+        if (storedData) {
+          userData = JSON.parse(storedData);
+        } else {
+          showError("Session expired. Please start over.");
+          setTimeout(() => {
+            window.location.href = "/signup";
+          }, 2000);
+          return;
+        }
+      });
+
+      // Phone number formatting
+      document.getElementById("phone").addEventListener("input", function (e) {
+        let value = e.target.value.replace(/\D/g, "");
+        if (value.length > 10) value = value.slice(0, 10);
+
+        let formattedValue = "";
+        if (value.length >= 6) {
+          formattedValue = `(${value.slice(0, 3)}) ${value.slice(
+            3,
+            6
+          )}-${value.slice(6)}`;
+        } else if (value.length >= 3) {
+          formattedValue = `(${value.slice(0, 3)}) ${value.slice(3)}`;
+        } else {
+          formattedValue = value;
+        }
+
+        e.target.value = formattedValue;
+      });
+
+      // Form submission
+      document
+        .getElementById("importantContactForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const contactType = document.getElementById("contactType").value;
+          const name = document.getElementById("name").value.trim();
+          const organization = document
+            .getElementById("organization")
+            .value.trim();
+          const phone = document.getElementById("phone").value.trim();
+          const email = document.getElementById("email").value.trim();
+          const submitBtn = e.target.querySelector('button[type="submit"]');
+
+          clearMessages();
+
+          if (!contactType) {
+            showError("Please select a contact type");
+            return;
+          }
+
+          if (!name) {
+            showError("Please enter the contact's name");
+            return;
+          }
+
+          // At least phone or email should be provided
+          if (!phone && !email) {
+            showError(
+              "Please provide at least a phone number or email address"
+            );
+            return;
+          }
+
+          // Validate email if provided
+          if (email && !isValidEmail(email)) {
+            showError("Please enter a valid email address");
+            return;
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.classList.add("loading");
+          submitBtn.textContent = "Completing Setup";
+
+          try {
+            // Save important contact data
+            userData.importantContact = {
+              type: contactType,
+              name: name,
+              organization: organization,
+              phone: phone,
+              email: email,
+            };
+
+            // Complete the signup process
+            await completeSignup();
+          } catch (error) {
+            showError("Failed to complete setup. Please try again.");
+            submitBtn.disabled = false;
+            submitBtn.classList.remove("loading");
+            submitBtn.textContent = "🎉 Complete Setup";
+          }
+        });
+
+      async function skipAndComplete() {
+        showSuccess(
+          "Skipping important contact. You can add this later from your account. Completing setup..."
+        );
+
+        try {
+          await completeSignup();
+        } catch (error) {
+          showError("Failed to complete setup. Please try again.");
+        }
+      }
+
+      async function completeSignup() {
+        showSuccess("Finalizing your account...");
+
+        try {
+          const response = await fetch("/api/signup/complete-signup", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              ...userData,
+              timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            // Clear signup data
+            sessionStorage.removeItem("afinalmessage_signup");
+
+            showSuccess(
+              "🎉 Account created successfully! Redirecting to your dashboard..."
+            );
+            setTimeout(() => {
+              window.location.href = "/account";
+            }, 2000);
+          } else {
+            throw new Error(data.error || "Failed to create account");
+          }
+        } catch (error) {
+          showError("Failed to complete signup: " + error.message);
+          throw error;
+        }
+      }
+
+      function goBack() {
+        window.history.back();
+      }
+
+      function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      }
+
+      function showError(message) {
+        clearMessages();
+        const errorDiv = document.createElement("div");
+        errorDiv.className = "error-message";
+        errorDiv.textContent = message;
+
+        const form = document.getElementById("importantContactForm");
+        form.parentNode.insertBefore(errorDiv, form);
+      }
+
+      function showSuccess(message) {
+        clearMessages();
+        const successDiv = document.createElement("div");
+        successDiv.className = "success-message";
+        successDiv.textContent = message;
+
+        const form = document.getElementById("importantContactForm");
+        form.parentNode.insertBefore(successDiv, form);
+      }
+
+      function clearMessages() {
+        const messages = document.querySelectorAll(
+          ".error-message, .success-message"
+        );
+        messages.forEach((msg) => msg.remove());
+      }
+    </script>
+  </body>
+</html>

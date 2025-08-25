@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up - A Final Message</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .signup-container {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        width: 100%;
+        max-width: 450px;
+        text-align: center;
+      }
+
+      .logo {
+        color: #007cba;
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-bottom: 30px;
+      }
+
+      .step-indicator {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+      }
+
+      .step {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: #e0e0e0;
+        color: #666;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 5px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .step.active {
+        background: #007cba;
+        color: white;
+      }
+
+      .step.completed {
+        background: #28a745;
+        color: white;
+      }
+
+      h1 {
+        color: #333;
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        color: #666;
+        margin-bottom: 30px;
+        line-height: 1.5;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+      }
+
+      .form-group label {
+        display: block;
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 8px;
+        font-size: 14px;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: #007cba;
+      }
+
+      .phone-input-group {
+        display: flex;
+        align-items: center;
+      }
+
+      .country-code {
+        background: #f8f9fa;
+        border: 2px solid #e0e0e0;
+        border-right: none;
+        border-radius: 8px 0 0 8px;
+        padding: 12px;
+        color: #333;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+      }
+
+      .phone-input-group input {
+        border-radius: 0 8px 8px 0;
+        flex: 1;
+      }
+
+      .btn {
+        width: 100%;
+        background: #007cba;
+        color: white;
+        border: none;
+        padding: 15px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-top: 10px;
+      }
+
+      .btn:hover {
+        background: #005a8b;
+        transform: translateY(-2px);
+      }
+
+      .btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .btn.loading::after {
+        content: " ...";
+        animation: dots 1.5s steps(5, end) infinite;
+      }
+
+      @keyframes dots {
+        0%,
+        20% {
+          color: rgba(0, 0, 0, 0);
+          text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 rgba(0, 0, 0, 0);
+        }
+        40% {
+          color: white;
+          text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 rgba(0, 0, 0, 0);
+        }
+        60% {
+          text-shadow: 0.25em 0 0 white, 0.5em 0 0 rgba(0, 0, 0, 0);
+        }
+        80%,
+        100% {
+          text-shadow: 0.25em 0 0 white, 0.5em 0 0 white;
+        }
+      }
+
+      .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f1aeb5;
+        border-radius: 5px;
+        padding: 12px;
+        margin-bottom: 20px;
+        font-size: 14px;
+      }
+
+      .success-message {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+        border-radius: 5px;
+        padding: 12px;
+        margin-bottom: 20px;
+        font-size: 14px;
+      }
+
+      .login-link {
+        margin-top: 20px;
+        font-size: 14px;
+        color: #666;
+      }
+
+      .login-link a {
+        color: #007cba;
+        text-decoration: none;
+      }
+
+      .login-link a:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 480px) {
+        .signup-container {
+          margin: 20px;
+          padding: 30px 20px;
+        }
+
+        .step-indicator {
+          flex-wrap: wrap;
+        }
+
+        .step {
+          width: 25px;
+          height: 25px;
+          font-size: 12px;
+          margin: 2px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="signup-container">
+      <div class="logo">A Final Message</div>
+
+      <div class="step-indicator">
+        <div class="step active">1</div>
+        <div class="step">2</div>
+        <div class="step">3</div>
+        <div class="step">4</div>
+        <div class="step">5</div>
+        <div class="step">6</div>
+        <div class="step">7</div>
+      </div>
+
+      <h1>Author Sign-Up</h1>
+      <p class="subtitle">
+        As the author of A Final Message, you will sign up with your name and
+        mobile phone to ensure secure verification.
+      </p>
+
+      <form id="namePhoneForm">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            placeholder="Enter your full name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Mobile Number</label>
+          <div class="phone-input-group">
+            <div class="country-code">🇺🇸 +1</div>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              required
+              placeholder="(555) 123-4567"
+              maxlength="15"
+            />
+          </div>
+          <small
+            style="
+              color: #666;
+              font-size: 12px;
+              margin-top: 5px;
+              display: block;
+            "
+          >
+            US numbers only. We'll send you a verification code.
+          </small>
+        </div>
+
+        <button type="submit" class="btn">Send Verification Code</button>
+      </form>
+
+      <div class="login-link">
+        Already have an account? <a href="/login">Login</a>
+      </div>
+    </div>
+
+    <script>
+      // Phone number formatting
+      document.getElementById("phone").addEventListener("input", function (e) {
+        let value = e.target.value.replace(/\D/g, "");
+        if (value.length > 10) value = value.slice(0, 10);
+
+        let formattedValue = "";
+        if (value.length >= 6) {
+          formattedValue = `(${value.slice(0, 3)}) ${value.slice(
+            3,
+            6
+          )}-${value.slice(6)}`;
+        } else if (value.length >= 3) {
+          formattedValue = `(${value.slice(0, 3)}) ${value.slice(3)}`;
+        } else {
+          formattedValue = value;
+        }
+
+        e.target.value = formattedValue;
+      });
+
+      // Form submission
+      document
+        .getElementById("namePhoneForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const name = document.getElementById("name").value.trim();
+          const phoneInput = document
+            .getElementById("phone")
+            .value.replace(/\D/g, "");
+          const submitBtn = e.target.querySelector('button[type="submit"]');
+
+          // Clear previous messages
+          clearMessages();
+
+          // Validation
+          if (!name) {
+            showError("Please enter your full name");
+            return;
+          }
+
+          if (phoneInput.length !== 10) {
+            showError("Please enter a valid 10-digit phone number");
+            return;
+          }
+
+          // Show loading state
+          submitBtn.disabled = true;
+          submitBtn.classList.add("loading");
+          submitBtn.textContent = "Sending Code";
+
+          try {
+            const response = await fetch(
+              "/api/signup/send-phone-verification",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  name: name,
+                  phone: phoneInput,
+                }),
+              }
+            );
+
+            const data = await response.json();
+
+            if (response.ok) {
+              // Store data in session storage
+              sessionStorage.setItem(
+                "afinalmessage_signup",
+                JSON.stringify({
+                  name: name,
+                  phone: `+1${phoneInput}`,
+                })
+              );
+
+              showSuccess("Verification code sent! Redirecting...");
+              setTimeout(() => {
+                window.location.href = "/signup/phoneverification.html";
+              }, 1500);
+            } else {
+              if (data.redirect) {
+                showError(data.error + " Redirecting...");
+                setTimeout(() => {
+                  window.location.href = data.redirect;
+                }, 2000);
+              } else {
+                showError(data.error || "An error occurred");
+              }
+            }
+          } catch (error) {
+            showError(
+              "Network error. Please check your connection and try again."
+            );
+          } finally {
+            submitBtn.disabled = false;
+            submitBtn.classList.remove("loading");
+            submitBtn.textContent = "Send Verification Code";
+          }
+        });
+
+      function showError(message) {
+        clearMessages();
+        const errorDiv = document.createElement("div");
+        errorDiv.className = "error-message";
+        errorDiv.textContent = message;
+
+        const form = document.getElementById("namePhoneForm");
+        form.parentNode.insertBefore(errorDiv, form);
+      }
+
+      function showSuccess(message) {
+        clearMessages();
+        const successDiv = document.createElement("div");
+        successDiv.className = "success-message";
+        successDiv.textContent = message;
+
+        const form = document.getElementById("namePhoneForm");
+        form.parentNode.insertBefore(successDiv, form);
+      }
+
+      function clearMessages() {
+        const messages = document.querySelectorAll(
+          ".error-message, .success-message"
+        );
+        messages.forEach((msg) => msg.remove());
+      }
+    </script>
+  </body>
+</html>

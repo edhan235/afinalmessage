@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Check-In - A Final Message</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .checkin-container {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        width: 100%;
+        max-width: 500px;
+        text-align: center;
+      }
+
+      .logo {
+        margin-bottom: 30px;
+      }
+
+      .logo h1 {
+        color: #333;
+        font-size: 28px;
+        margin-bottom: 10px;
+      }
+
+      .logo p {
+        color: #666;
+        font-size: 14px;
+      }
+
+      .checkin-icon {
+        font-size: 80px;
+        margin-bottom: 20px;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .checkin-title {
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 15px;
+        font-weight: 600;
+      }
+
+      .checkin-subtitle {
+        color: #666;
+        font-size: 16px;
+        margin-bottom: 30px;
+        line-height: 1.5;
+      }
+
+      .user-info {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 30px;
+        text-align: left;
+      }
+
+      .user-info h3 {
+        color: #333;
+        font-size: 18px;
+        margin-bottom: 15px;
+      }
+
+      .info-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 14px;
+      }
+
+      .info-label {
+        color: #666;
+        font-weight: 500;
+      }
+
+      .info-value {
+        color: #333;
+        font-weight: 600;
+      }
+
+      .checkin-btn {
+        width: 100%;
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 16px;
+        border-radius: 12px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .checkin-btn:hover {
+        background: #218838;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+      }
+
+      .checkin-btn:disabled {
+        background: #6c757d;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+      .loading-spinner {
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 1s ease-in-out infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .success-message {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        display: none;
+      }
+
+      .success-message.show {
+        display: block;
+        animation: slideIn 0.5s ease-out;
+      }
+
+      .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        display: none;
+      }
+
+      .error-message.show {
+        display: block;
+        animation: slideIn 0.5s ease-out;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .secondary-btn {
+        background: #007cba;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.3s;
+        text-decoration: none;
+        display: inline-block;
+        margin: 0 10px;
+      }
+
+      .secondary-btn:hover {
+        background: #005a8b;
+      }
+
+      .help-text {
+        color: #666;
+        font-size: 12px;
+        margin-top: 20px;
+        line-height: 1.4;
+      }
+
+      .next-checkin {
+        background: #e3f2fd;
+        border-left: 4px solid #2196f3;
+        padding: 15px;
+        margin-top: 20px;
+        border-radius: 8px;
+        text-align: left;
+      }
+
+      .next-checkin h4 {
+        color: #1976d2;
+        margin-bottom: 8px;
+      }
+
+      .next-checkin p {
+        color: #666;
+        font-size: 14px;
+      }
+
+      @media (max-width: 480px) {
+        .checkin-container {
+          padding: 30px 20px;
+        }
+
+        .checkin-title {
+          font-size: 20px;
+        }
+
+        .checkin-icon {
+          font-size: 60px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="checkin-container">
+      <!-- Logo -->
+      <div class="logo">
+        <h1>A Final Message</h1>
+        <p>Secure Check-In System</p>
+      </div>
+
+      <div class="checkin-icon">💚</div>
+
+      <div id="loadingState">
+        <div class="checkin-title">Verifying Check-In Link...</div>
+        <div class="checkin-subtitle">
+          <div class="loading-spinner" style="margin: 20px auto"></div>
+          Please wait while we verify your secure check-in link.
+        </div>
+      </div>
+
+      <div id="checkinState" style="display: none">
+        <div class="checkin-title">Time to Check In!</div>
+        <div class="checkin-subtitle">
+          Let us know you're safe and well by completing your check-in below.
+        </div>
+
+        <div class="user-info" id="userInfo">
+          <!-- User information will be populated here -->
+        </div>
+
+        <div id="errorMessage" class="error-message"></div>
+        <div id="successMessage" class="success-message"></div>
+
+        <button id="checkinBtn" class="checkin-btn">
+          <span id="btnText">✅ Complete Check-In</span>
+          <span id="btnLoader" style="display: none">
+            <span class="loading-spinner"></span> Processing...
+          </span>
+        </button>
+
+        <div class="next-checkin" id="nextCheckinInfo" style="display: none">
+          <h4>📅 Next Check-In Scheduled</h4>
+          <p id="nextCheckinDate">
+            Your next check-in will be due in 3 months.
+          </p>
+        </div>
+
+        <div style="margin-top: 30px">
+          <a href="/account" class="secondary-btn">Go to My Account</a>
+          <a href="/" class="secondary-btn">Homepage</a>
+        </div>
+
+        <div class="help-text">
+          This secure check-in confirms you are safe and resets your check-in
+          schedule. If you don't check in by the deadline, your designated
+          contacts will be notified.
+        </div>
+      </div>
+
+      <div id="errorState" style="display: none">
+        <div class="checkin-icon">❌</div>
+        <div class="checkin-title">Invalid Check-In Link</div>
+        <div class="checkin-subtitle">
+          This check-in link is either expired, invalid, or has already been
+          used.
+        </div>
+
+        <div class="error-message show">
+          <strong>Link Error:</strong>
+          <span id="linkErrorMessage"
+            >Please check your email for the most recent check-in link.</span
+          >
+        </div>
+
+        <div style="margin-top: 30px">
+          <a href="/login" class="secondary-btn">Login to Account</a>
+          <a href="/" class="secondary-btn">Homepage</a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let checkinData = null;
+
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("Check-in page loaded");
+
+        // Get token from URL
+        const pathParts = window.location.pathname.split("/");
+        const token = pathParts[pathParts.length - 1];
+
+        if (token && token !== "checkin") {
+          verifyCheckinLink(token);
+        } else {
+          showError("No check-in token provided");
+        }
+      });
+
+      async function verifyCheckinLink(token) {
+        try {
+          const response = await fetch(`/api/checkin/verify/${token}`, {
+            method: "GET",
+          });
+
+          const data = await response.json();
+
+          if (response.ok && data.success) {
+            checkinData = data;
+            showCheckinForm(data);
+          } else {
+            showError(data.error || "Invalid check-in link");
+          }
+        } catch (error) {
+          console.error("Verify check-in error:", error);
+          showError("Connection error. Please try again later.");
+        }
+      }
+
+      function showCheckinForm(data) {
+        document.getElementById("loadingState").style.display = "none";
+        document.getElementById("checkinState").style.display = "block";
+
+        // Populate user info
+        const userInfo = document.getElementById("userInfo");
+        userInfo.innerHTML = `
+                <h3>Account Information</h3>
+                <div class="info-row">
+                    <span class="info-label">Name:</span>
+                    <span class="info-value">${data.user.name}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Check-in Frequency:</span>
+                    <span class="info-value">Every ${
+                      data.user.check_in_frequency
+                    } months</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Last Check-in:</span>
+                    <span class="info-value">${
+                      data.user.last_check_in_date
+                        ? new Date(
+                            data.user.last_check_in_date
+                          ).toLocaleDateString()
+                        : "First time checking in"
+                    }</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Missed Check-ins:</span>
+                    <span class="info-value">${
+                      data.user.missed_check_ins || 0
+                    }/3</span>
+                </div>
+            `;
+
+        // Set up check-in button
+        document
+          .getElementById("checkinBtn")
+          .addEventListener("click", performCheckin);
+      }
+
+      function showError(message) {
+        document.getElementById("loadingState").style.display = "none";
+        document.getElementById("errorState").style.display = "block";
+        document.getElementById("linkErrorMessage").textContent = message;
+      }
+
+      async function performCheckin() {
+        const token = window.location.pathname.split("/").pop();
+
+        setLoadingState(true);
+        hideMessages();
+
+        try {
+          const response = await fetch(`/api/checkin/complete/${token}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          const data = await response.json();
+
+          if (response.ok && data.success) {
+            showSuccess(
+              "✅ Check-in completed successfully! Thank you for confirming you're safe."
+            );
+
+            // Show next check-in info
+            const nextCheckinInfo = document.getElementById("nextCheckinInfo");
+            const nextCheckinDate = document.getElementById("nextCheckinDate");
+
+            if (data.nextCheckIn) {
+              const nextDate = new Date(data.nextCheckIn).toLocaleDateString();
+              nextCheckinDate.textContent = `Your next check-in will be due on ${nextDate}.`;
+              nextCheckinInfo.style.display = "block";
+            }
+
+            // Disable check-in button
+            const btn = document.getElementById("checkinBtn");
+            btn.disabled = true;
+            btn.innerHTML = "✅ Check-In Complete";
+          } else {
+            showErrorMessage(
+              data.error || "Check-in failed. Please try again."
+            );
+          }
+        } catch (error) {
+          console.error("Check-in error:", error);
+          showErrorMessage("Connection error. Please try again.");
+        } finally {
+          setLoadingState(false);
+        }
+      }
+
+      function setLoadingState(isLoading) {
+        const btn = document.getElementById("checkinBtn");
+        const btnText = document.getElementById("btnText");
+        const btnLoader = document.getElementById("btnLoader");
+
+        btn.disabled = isLoading;
+        btnText.style.display = isLoading ? "none" : "inline";
+        btnLoader.style.display = isLoading ? "inline" : "none";
+      }
+
+      function showSuccess(message) {
+        const successDiv = document.getElementById("successMessage");
+        successDiv.textContent = message;
+        successDiv.classList.add("show");
+      }
+
+      function showErrorMessage(message) {
+        const errorDiv = document.getElementById("errorMessage");
+        errorDiv.textContent = message;
+        errorDiv.classList.add("show");
+      }
+
+      function hideMessages() {
+        document.getElementById("errorMessage").classList.remove("show");
+        document.getElementById("successMessage").classList.remove("show");
+      }
+    </script>
+  </body>
+</html>

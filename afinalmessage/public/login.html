@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - A Final Message</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .login-container {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        width: 100%;
+        max-width: 450px;
+        text-align: center;
+      }
+
+      .logo {
+        margin-bottom: 30px;
+      }
+
+      .logo h1 {
+        color: #333;
+        font-size: 28px;
+        margin-bottom: 10px;
+      }
+
+      .logo p {
+        color: #666;
+        font-size: 14px;
+      }
+
+      .step-indicator {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+      }
+
+      .step {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: #e0e0e0;
+        color: #666;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 5px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .step.active {
+        background: #007cba;
+        color: white;
+      }
+
+      .step.completed {
+        background: #28a745;
+        color: white;
+      }
+
+      .form-title {
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+
+      .form-subtitle {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 30px;
+        line-height: 1.5;
+      }
+
+      .verification-display {
+        background: #f8f9fa;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 20px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+      }
+
+      .form-label {
+        display: block;
+        color: #333;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 8px;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.3s;
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: #007cba;
+        box-shadow: 0 0 0 3px rgba(0, 124, 186, 0.1);
+      }
+
+      .form-input.error {
+        border-color: #dc3545;
+      }
+
+      .phone-input-wrapper {
+        position: relative;
+      }
+
+      .phone-prefix {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #666;
+        font-size: 16px;
+      }
+
+      .phone-input {
+        padding-left: 45px;
+      }
+
+      .code-input {
+        font-size: 24px;
+        text-align: center;
+        letter-spacing: 0.2em;
+        font-weight: bold;
+        padding: 15px;
+      }
+
+      .login-btn {
+        width: 100%;
+        background: #007cba;
+        color: white;
+        border: none;
+        padding: 14px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.3s;
+        margin-top: 10px;
+      }
+
+      .login-btn:hover {
+        background: #005a8b;
+      }
+
+      .login-btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
+
+      .btn-secondary {
+        background: #6c757d;
+        margin-top: 15px;
+      }
+
+      .btn-secondary:hover {
+        background: #545b62;
+      }
+
+      .divider {
+        margin: 30px 0;
+        text-align: center;
+        position: relative;
+      }
+
+      .divider::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: #ddd;
+      }
+
+      .divider span {
+        background: white;
+        padding: 0 15px;
+        color: #999;
+        font-size: 14px;
+        position: relative;
+      }
+
+      .signup-link {
+        text-align: center;
+      }
+
+      .signup-link a {
+        color: #007cba;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .signup-link a:hover {
+        text-decoration: underline;
+      }
+
+      .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border: 1px solid #f5c6cb;
+        font-size: 14px;
+        display: none;
+      }
+
+      .error-message.show {
+        display: block;
+      }
+
+      .success-message {
+        background: #d4edda;
+        color: #155724;
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border: 1px solid #c3e6cb;
+        font-size: 14px;
+        display: none;
+      }
+
+      .success-message.show {
+        display: block;
+      }
+
+      .loading-spinner {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 1s ease-in-out infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .helper-text {
+        color: #666;
+        font-size: 12px;
+        margin-top: 5px;
+      }
+
+      .resend-section {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #e0e0e0;
+        font-size: 14px;
+        color: #666;
+      }
+
+      .resend-link {
+        color: #007cba;
+        cursor: pointer;
+        text-decoration: underline;
+      }
+
+      .resend-link:hover {
+        color: #005a8b;
+      }
+
+      .timer {
+        color: #999;
+        font-size: 12px;
+        margin-top: 10px;
+      }
+
+      .back-link {
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      .back-link a {
+        color: #666;
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      .back-link a:hover {
+        color: #007cba;
+      }
+
+      .login-step {
+        display: none;
+      }
+
+      .login-step.active {
+        display: block;
+      }
+
+      @media (max-width: 480px) {
+        .login-container {
+          padding: 30px 20px;
+        }
+
+        .logo h1 {
+          font-size: 24px;
+        }
+
+        .form-title {
+          font-size: 20px;
+        }
+
+        .step-indicator {
+          flex-wrap: wrap;
+        }
+
+        .step {
+          width: 25px;
+          height: 25px;
+          font-size: 12px;
+          margin: 2px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <!-- Logo -->
+      <div class="logo">
+        <h1>A Final Message</h1>
+        <p>Secure access to your account</p>
+      </div>
+
+      <!-- Step Indicator -->
+      <div class="step-indicator">
+        <div class="step active" id="step1">1</div>
+        <div class="step" id="step2">2</div>
+        <div class="step" id="step3">3</div>
+      </div>
+
+      <!-- Error/Success Messages -->
+      <div id="errorMessage" class="error-message"></div>
+      <div id="successMessage" class="success-message"></div>
+
+      <!-- Step 1: Enter Phone Number -->
+      <div id="phoneStep" class="login-step active">
+        <div class="form-title">Welcome Back</div>
+        <div class="form-subtitle">Enter your phone number to begin login</div>
+
+        <form id="phoneForm">
+          <div class="form-group">
+            <label class="form-label" for="phone">Phone Number</label>
+            <div class="phone-input-wrapper">
+              <span class="phone-prefix">+1</span>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                class="form-input phone-input"
+                placeholder="(555) 123-4567"
+                maxlength="14"
+                required
+              />
+            </div>
+            <div class="helper-text">
+              Enter the phone number you used during signup
+            </div>
+          </div>
+
+          <button type="submit" id="phoneBtn" class="login-btn">
+            <span id="phoneBtnText">Send Verification Code</span>
+            <span id="phoneBtnLoader" style="display: none">
+              <span class="loading-spinner"></span> Sending...
+            </span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Step 2: Verify Phone -->
+      <div id="phoneVerificationStep" class="login-step">
+        <div class="form-title">Verify Your Phone</div>
+        <div class="form-subtitle">
+          We sent a 6-digit code to your phone number
+        </div>
+
+        <div class="verification-display" id="phoneDisplay">
+          Loading phone number...
+        </div>
+
+        <form id="phoneVerificationForm">
+          <div class="form-group">
+            <label class="form-label" for="phoneCode">Verification Code</label>
+            <input
+              type="text"
+              id="phoneCode"
+              name="phoneCode"
+              class="form-input code-input"
+              placeholder="000000"
+              maxlength="6"
+              required
+            />
+          </div>
+
+          <button type="submit" id="phoneVerifyBtn" class="login-btn">
+            <span id="phoneVerifyBtnText">Verify Phone</span>
+            <span id="phoneVerifyBtnLoader" style="display: none">
+              <span class="loading-spinner"></span> Verifying...
+            </span>
+          </button>
+          
+          <button type="button" id="backToPhoneBtn" class="login-btn btn-secondary">
+            Back
+          </button>
+        </form>
+
+        <div class="resend-section">
+          <p>Didn't receive the code?</p>
+          <span class="resend-link" id="resendPhoneLink">Resend Code</span>
+          <div class="timer" id="phoneTimer"></div>
+        </div>
+      </div>
+
+      <!-- Step 3: Verify Email -->
+      <div id="emailVerificationStep" class="login-step">
+        <div class="form-title">Verify Your Email</div>
+        <div class="form-subtitle">
+          We sent a 6-digit code to your email address
+        </div>
+
+        <div class="verification-display" id="emailDisplay">
+          Loading email address...
+        </div>
+
+        <form id="emailVerificationForm">
+          <div class="form-group">
+            <label class="form-label" for="emailCode">Email Verification Code</label>
+            <input
+              type="text"
+              id="emailCode"
+              name="emailCode"
+              class="form-input code-input"
+              placeholder="000000"
+              maxlength="6"
+              required
+            />
+          </div>
+
+          <button type="submit" id="emailVerifyBtn" class="login-btn">
+            <span id="emailVerifyBtnText">Complete Login</span>
+            <span id="emailVerifyBtnLoader" style="display: none">
+              <span class="loading-spinner"></span> Logging in...
+            </span>
+          </button>
+          
+          <button type="button" id="backToPhoneVerifyBtn" class="login-btn btn-secondary">
+            Back
+          </button>
+        </form>
+
+        <div class="resend-section">
+          <p>Didn't receive the email?</p>
+          <span class="resend-link" id="resendEmailLink">Resend Email</span>
+          <div class="timer" id="emailTimer"></div>
+        </div>
+      </div>
+
+      <div class="divider">
+        <span>or</span>
+      </div>
+
+      <div class="signup-link">
+        Don't have an account? <a href="/signup">Sign up here</a>
+      </div>
+
+      <div class="back-link">
+        <a href="/">← Back to Homepage</a>
+      </div>
+    </div>
+
+    <script>
+      // Global variables
+      let currentStep = 1;
+      let loginData = {};
+      let phoneResendTimer = 0;
+      let emailResendTimer = 0;
+      let phoneTimerInterval;
+      let emailTimerInterval;
+
+      // Initialize when DOM is ready
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("Enhanced login page loaded");
+        setupEventListeners();
+        
+        // Check for signup success message
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get("signup") === "success") {
+          showSuccess("Account created successfully! Please login.");
+        }
+      });
+
+      // Set up all event listeners
+      function setupEventListeners() {
+        // Phone input formatting
+        const phoneInput = document.getElementById("phone");
+        phoneInput.addEventListener("input", formatPhoneNumber);
+
+        // Form submissions
+        document.getElementById("phoneForm").addEventListener("submit", handlePhoneSubmission);
+        document.getElementById("phoneVerificationForm").addEventListener("submit", handlePhoneVerification);
+        document.getElementById("emailVerificationForm").addEventListener("submit", handleEmailVerification);
+
+        // Back buttons
+        document.getElementById("backToPhoneBtn").addEventListener("click", () => goToStep(1));
+        document.getElementById("backToPhoneVerifyBtn").addEventListener("click", () => goToStep(2));
+
+        // Resend links
+        document.getElementById("resendPhoneLink").addEventListener("click", resendPhoneCode);
+        document.getElementById("resendEmailLink").addEventListener("click", resendEmailCode);
+
+        // Auto-submit on 6-digit entry
+        document.getElementById("phoneCode").addEventListener("input", function(e) {
+          let value = e.target.value.replace(/\D/g, "");
+          e.target.value = value;
+          if (value.length === 6) {
+            setTimeout(() => {
+              document.getElementById("phoneVerificationForm").dispatchEvent(new Event("submit"));
+            }, 300);
+          }
+        });
+
+        document.getElementById("emailCode").addEventListener("input", function(e) {
+          let value = e.target.value.replace(/\D/g, "");
+          e.target.value = value;
+          if (value.length === 6) {
+            setTimeout(() => {
+              document.getElementById("emailVerificationForm").dispatchEvent(new Event("submit"));
+            }, 300);
+          }
+        });
+      }
+
+      // Format phone number as user types
+      function formatPhoneNumber(e) {
+        let value = e.target.value.replace(/\D/g, "");
+        let formattedValue = "";
+
+        if (value.length > 0) {
+          if (value.length <= 3) {
+            formattedValue = `(${value}`;
+          } else if (value.length <= 6) {
+            formattedValue = `(${value.slice(0, 3)}) ${value.slice(3)}`;
+          } else {
+            formattedValue = `(${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6, 10)}`;
+          }
+        }
+
+        e.target.value = formattedValue;
+      }
+
+      // Step navigation
+      function goToStep(step) {
+        currentStep = step;
+        
+        // Hide all steps
+        document.querySelectorAll('.login-step').forEach(s => s.classList.remove('active'));
+        
+        // Update step indicator
+        document.querySelectorAll('.step').forEach((s, i) => {
+          s.classList.remove('active', 'completed');
+          if (i + 1 < step) s.classList.add('completed');
+          if (i + 1 === step) s.classList.add('active');
+        });
+
+        // Show current step
+        switch(step) {
+          case 1:
+            document.getElementById('phoneStep').classList.add('active');
+            break;
+          case 2:
+            document.getElementById('phoneVerificationStep').classList.add('active');
+            document.getElementById('phoneDisplay').textContent = loginData.phone || 'Phone number';
+            startPhoneTimer();
+            break;
+          case 3:
+            document.getElementById('emailVerificationStep').classList.add('active');
+            document.getElementById('emailDisplay').textContent = loginData.email || 'Email address';
+            startEmailTimer();
+            break;
+        }
+
+        hideMessages();
+      }
+
+      // Handle phone submission (Step 1)
+      async function handlePhoneSubmission(event) {
+        event.preventDefault();
+        console.log("Phone form submitted");
+
+        hideMessages();
+
+        const phoneInput = document.getElementById("phone").value;
+        const phoneDigits = phoneInput.replace(/\D/g, "");
+
+        if (phoneDigits.length !== 10) {
+          showError("Please enter a valid 10-digit phone number");
+          return;
+        }
+
+        const phone = "+1" + phoneDigits;
+        loginData.phone = phone;
+
+        setLoadingState("phone", true);
+
+        try {
+          const response = await fetch("/api/login/send-phone-verification", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ phone: phone }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok && data.success) {
+            showSuccess("Verification code sent to your phone!");
+            setTimeout(() => goToStep(2), 1500);
+          } else {
+            if (response.status === 404) {
+              showError("No account found with this phone number. Please sign up first.");
+            } else {
+              showError(data.error || "Failed to send verification code.");
+            }
+            setLoadingState("phone", false);
+          }
+        } catch (error) {
+          console.error("Phone submission error:", error);
+          showError("Connection error. Please check your internet and try again.");
+          setLoadingState("phone", false);
+        }
+      }
+
+      // Handle phone verification (Step 2)
+      async function handlePhoneVerification(event) {
+        event.preventDefault();
+
+        const code = document.getElementById("phoneCode").value.trim();
+
+        if (code.length !== 6) {
+          showError("Please enter a valid 6-digit code");
+          return;
+        }
+
+        setLoadingState("phoneVerify", true);
+
+        try {
+          const response = await fetch("/api/login/verify-phone", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ phone: loginData.phone, code: code }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok && data.success) {
+            loginData.email = data.email;
+            showSuccess("Phone verified! Sending email verification...");
+            setTimeout(() => goToStep(3), 1500);
+          } else {
+            showError(data.error || "Phone verification failed");
+            setLoadingState("phoneVerify", false);
+          }
+        } catch (error) {
+          console.error("Phone verification error:", error);
+          showError("Connection error. Please try again.");
+          setLoadingState("phoneVerify", false);
+        }
+      }
+
+      // Handle email verification (Step 3)
+      async function handleEmailVerification(event) {
+        event.preventDefault();
+
+        const code = document.getElementById("emailCode").value.trim();
+
+        if (code.length !== 6) {
+          showError("Please enter a valid 6-digit code");
+          return;
+        }
+
+        setLoadingState("emailVerify", true);
+
+        try {
+          const response = await fetch("/api/login/verify-email", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: loginData.email, code: code }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok && data.success) {
+            showSuccess("Login successful! Redirecting...");
+            
+            // Clear any existing storage
+            sessionStorage.clear();
+            localStorage.clear();
+
+            setTimeout(() => {
+              window.location.href = "/account";
+            }, 1000);
+          } else {
+            showError(data.error || "Email verification failed");
+            setLoadingState("emailVerify", false);
+          }
+        } catch (error) {
+          console.error("Email verification error:", error);
+          showError("Connection error. Please try again.");
+          setLoadingState("emailVerify", false);
+        }
+      }
+
+      // Resend phone code
+      async function resendPhoneCode() {
+        if (phoneResendTimer > 0) return;
+
+        try {
+          const response = await fetch("/api/login/resend-phone-code", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ phone: loginData.phone }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok && data.success) {
+            showSuccess("New verification code sent to your phone!");
+            phoneResendTimer = 60;
+            startPhoneTimer();
+          } else {
+            showError(data.error || "Failed to resend code");
+          }
+        } catch (error) {
+          showError("Network error. Please try again.");
+        }
+      }
+
+      // Resend email code
+      async function resendEmailCode() {
+        if (emailResendTimer > 0) return;
+
+        try {
+          const response = await fetch("/api/login/resend-email-code", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: loginData.email }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok && data.success) {
+            showSuccess("New verification code sent to your email!");
+            emailResendTimer = 60;
+            startEmailTimer();
+          } else {
+            showError(data.error || "Failed to resend email");
+          }
+        } catch (error) {
+          showError("Network error. Please try again.");
+        }
+      }
+
+      // Timer functions
+      function startPhoneTimer() {
+        phoneResendTimer = 60;
+        const timerElement = document.getElementById("phoneTimer");
+        const resendLink = document.getElementById("resendPhoneLink");
+
+        phoneTimerInterval = setInterval(() => {
+          if (phoneResendTimer > 0) {
+            timerElement.textContent = `Resend available in ${phoneResendTimer}s`;
+            resendLink.style.color = "#999";
+            resendLink.style.cursor = "not-allowed";
+            phoneResendTimer--;
+          } else {
+            timerElement.textContent = "";
+            resendLink.style.color = "#007cba";
+            resendLink.style.cursor = "pointer";
+            clearInterval(phoneTimerInterval);
+          }
+        }, 1000);
+      }
+
+      function startEmailTimer() {
+        emailResendTimer = 60;
+        const timerElement = document.getElementById("emailTimer");
+        const resendLink = document.getElementById("resendEmailLink");
+
+        emailTimerInterval = setInterval(() => {
+          if (emailResendTimer > 0) {
+            timerElement.textContent = `Resend available in ${emailResendTimer}s`;
+            resendLink.style.color = "#999";
+            resendLink.style.cursor = "not-allowed";
+            emailResendTimer--;
+          } else {
+            timerElement.textContent = "";
+            resendLink.style.color = "#007cba";
+            resendLink.style.cursor = "pointer";
+            clearInterval(emailTimerInterval);
+          }
+        }, 1000);
+      }
+
+      // Utility functions
+      function showError(message) {
+        const errorDiv = document.getElementById("errorMessage");
+        errorDiv.textContent = message;
+        errorDiv.classList.add("show");
+        
+        setTimeout(() => {
+          errorDiv.classList.remove("show");
+        }, 5000);
+      }
+
+      function showSuccess(message) {
+        const successDiv = document.getElementById("successMessage");
+        successDiv.textContent = message;
+        successDiv.classList.add("show");
+        
+        setTimeout(() => {
+          successDiv.classList.remove("show");
+        }, 3000);
+      }
+
+      function hideMessages() {
+        document.getElementById("errorMessage").classList.remove("show");
+        document.getElementById("successMessage").classList.remove("show");
+      }
+
+      function setLoadingState(button, isLoading) {
+        const btn = document.getElementById(`${button}Btn`);
+        const btnText = document.getElementById(`${button}BtnText`);
+        const btnLoader = document.getElementById(`${button}BtnLoader`);
+
+        btn.disabled = isLoading;
+        btnText.style.display = isLoading ? "none" : "inline";
+        btnLoader.style.display = isLoading ? "inline" : "none";
+      }
+    </script>
+  </body>
+</html>

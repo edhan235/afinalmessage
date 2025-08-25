@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phone Verification - A Final Message</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .signup-container {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        width: 100%;
+        max-width: 450px;
+        text-align: center;
+      }
+
+      .logo {
+        color: #007cba;
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-bottom: 30px;
+      }
+
+      .step-indicator {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+      }
+
+      .step {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: #e0e0e0;
+        color: #666;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 5px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .step.active {
+        background: #007cba;
+        color: white;
+      }
+
+      .step.completed {
+        background: #28a745;
+        color: white;
+      }
+
+      h1 {
+        color: #333;
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        color: #666;
+        margin-bottom: 30px;
+        line-height: 1.5;
+      }
+
+      .phone-display {
+        background: #f8f9fa;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 20px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+      }
+
+      .form-group label {
+        display: block;
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 8px;
+        font-size: 14px;
+      }
+
+      .code-input {
+        width: 100%;
+        padding: 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 24px;
+        text-align: center;
+        letter-spacing: 0.2em;
+        font-weight: bold;
+        transition: border-color 0.3s;
+      }
+
+      .code-input:focus {
+        outline: none;
+        border-color: #007cba;
+      }
+
+      .btn {
+        width: 100%;
+        background: #007cba;
+        color: white;
+        border: none;
+        padding: 15px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-top: 10px;
+      }
+
+      .btn:hover {
+        background: #005a8b;
+        transform: translateY(-2px);
+      }
+
+      .btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .btn-secondary {
+        background: #6c757d;
+        margin-top: 15px;
+      }
+
+      .btn-secondary:hover {
+        background: #545b62;
+      }
+
+      .btn.loading::after {
+        content: " ...";
+        animation: dots 1.5s steps(5, end) infinite;
+      }
+
+      @keyframes dots {
+        0%,
+        20% {
+          color: rgba(0, 0, 0, 0);
+          text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 rgba(0, 0, 0, 0);
+        }
+        40% {
+          color: white;
+          text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 rgba(0, 0, 0, 0);
+        }
+        60% {
+          text-shadow: 0.25em 0 0 white, 0.5em 0 0 rgba(0, 0, 0, 0);
+        }
+        80%,
+        100% {
+          text-shadow: 0.25em 0 0 white, 0.5em 0 0 white;
+        }
+      }
+
+      .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f1aeb5;
+        border-radius: 5px;
+        padding: 12px;
+        margin-bottom: 20px;
+        font-size: 14px;
+      }
+
+      .success-message {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+        border-radius: 5px;
+        padding: 12px;
+        margin-bottom: 20px;
+        font-size: 14px;
+      }
+
+      .resend-section {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #e0e0e0;
+        font-size: 14px;
+        color: #666;
+      }
+
+      .resend-link {
+        color: #007cba;
+        cursor: pointer;
+        text-decoration: underline;
+      }
+
+      .resend-link:hover {
+        color: #005a8b;
+      }
+
+      .timer {
+        color: #999;
+        font-size: 12px;
+        margin-top: 10px;
+      }
+
+      @media (max-width: 480px) {
+        .signup-container {
+          margin: 20px;
+          padding: 30px 20px;
+        }
+
+        .step-indicator {
+          flex-wrap: wrap;
+        }
+
+        .step {
+          width: 25px;
+          height: 25px;
+          font-size: 12px;
+          margin: 2px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="signup-container">
+      <div class="logo">A Final Message</div>
+
+      <div class="step-indicator">
+        <div class="step completed">1</div>
+        <div class="step active">2</div>
+        <div class="step">3</div>
+        <div class="step">4</div>
+        <div class="step">5</div>
+        <div class="step">6</div>
+        <div class="step">7</div>
+      </div>
+
+      <h1>Enter Verification Code</h1>
+      <p class="subtitle">
+        We sent a 6-digit code to your phone. Enter it below to verify your
+        number.
+      </p>
+
+      <div class="phone-display" id="phoneDisplay">Loading phone number...</div>
+
+      <form id="verifyPhoneForm">
+        <div class="form-group">
+          <label for="code">Verification Code</label>
+          <input
+            type="text"
+            id="code"
+            name="code"
+            class="code-input"
+            required
+            maxlength="6"
+            placeholder="000000"
+            autocomplete="one-time-code"
+          />
+        </div>
+
+        <button type="submit" class="btn">Verify Code</button>
+      </form>
+
+      <div class="resend-section">
+        <p>Didn't receive the code?</p>
+        <span class="resend-link" id="resendLink">Resend Code</span>
+        <div class="timer" id="timer"></div>
+      </div>
+    </div>
+
+    <script>
+      let resendTimer = 60;
+      let timerInterval;
+      let userData = {};
+
+      // Load user data from session storage
+      document.addEventListener("DOMContentLoaded", function () {
+        const storedData = sessionStorage.getItem("afinalmessage_signup");
+        if (storedData) {
+          userData = JSON.parse(storedData);
+          document.getElementById("phoneDisplay").textContent =
+            userData.phone || "Phone number not found";
+        } else {
+          showError("Session expired. Please start over.");
+          setTimeout(() => {
+            window.location.href = "/signup";
+          }, 2000);
+        }
+
+        startResendTimer();
+      });
+
+      // Auto-focus and auto-submit when 6 digits entered
+      document.getElementById("code").addEventListener("input", function (e) {
+        let value = e.target.value.replace(/\D/g, "");
+        e.target.value = value;
+
+        if (value.length === 6) {
+          // Auto-submit when 6 digits entered
+          setTimeout(() => {
+            document
+              .getElementById("verifyPhoneForm")
+              .dispatchEvent(new Event("submit"));
+          }, 300);
+        }
+      });
+
+      // Form submission
+      document
+        .getElementById("verifyPhoneForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const code = document.getElementById("code").value.trim();
+          const submitBtn = e.target.querySelector('button[type="submit"]');
+
+          clearMessages();
+
+          if (code.length !== 6) {
+            showError("Please enter a valid 6-digit code");
+            return;
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.classList.add("loading");
+          submitBtn.textContent = "Verifying";
+
+          try {
+            const response = await fetch("/api/signup/verify-phone", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                phone: userData.phone,
+                code: code,
+              }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+              showSuccess("Phone verified! Redirecting...");
+              setTimeout(() => {
+                window.location.href = "/signup/emailaddress.html";
+              }, 1500);
+            } else {
+              showError(data.error || "Verification failed");
+            }
+          } catch (error) {
+            showError(
+              "Network error. Please check your connection and try again."
+            );
+          } finally {
+            submitBtn.disabled = false;
+            submitBtn.classList.remove("loading");
+            submitBtn.textContent = "Verify Code";
+          }
+        });
+
+      // Resend code functionality
+      document
+        .getElementById("resendLink")
+        .addEventListener("click", async function () {
+          if (resendTimer > 0) return;
+
+          const link = this;
+          const originalText = link.textContent;
+
+          link.textContent = "Sending...";
+          link.style.pointerEvents = "none";
+
+          try {
+            const response = await fetch("/api/signup/resend-code", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                identifier: userData.phone,
+                type: "phone",
+              }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+              showSuccess("New verification code sent!");
+              resendTimer = 60;
+              startResendTimer();
+            } else {
+              showError(data.error || "Failed to resend code");
+            }
+          } catch (error) {
+            showError("Network error. Please try again.");
+          } finally {
+            setTimeout(() => {
+              link.textContent = originalText;
+              link.style.pointerEvents = "auto";
+            }, 3000);
+          }
+        });
+
+      function startResendTimer() {
+        const timerElement = document.getElementById("timer");
+        const resendLink = document.getElementById("resendLink");
+
+        timerInterval = setInterval(() => {
+          if (resendTimer > 0) {
+            timerElement.textContent = `Resend available in ${resendTimer}s`;
+            resendLink.style.color = "#999";
+            resendLink.style.cursor = "not-allowed";
+            resendTimer--;
+          } else {
+            timerElement.textContent = "";
+            resendLink.style.color = "#007cba";
+            resendLink.style.cursor = "pointer";
+            clearInterval(timerInterval);
+          }
+        }, 1000);
+      }
+
+      function showError(message) {
+        clearMessages();
+        const errorDiv = document.createElement("div");
+        errorDiv.className = "error-message";
+        errorDiv.textContent = message;
+
+        const form = document.getElementById("verifyPhoneForm");
+        form.parentNode.insertBefore(errorDiv, form);
+      }
+
+      function showSuccess(message) {
+        clearMessages();
+        const successDiv = document.createElement("div");
+        successDiv.className = "success-message";
+        successDiv.textContent = message;
+
+        const form = document.getElementById("verifyPhoneForm");
+        form.parentNode.insertBefore(successDiv, form);
+      }
+
+      function clearMessages() {
+        const messages = document.querySelectorAll(
+          ".error-message, .success-message"
+        );
+        messages.forEach((msg) => msg.remove());
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Account - A Final Message</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .header {
+        background: white;
+        border-radius: 12px;
+        padding: 20px 30px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .header h1 {
+        color: #333;
+        font-size: 24px;
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .user-name {
+        color: #666;
+        font-size: 16px;
+      }
+
+      .logout-btn {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.3s;
+      }
+
+      .logout-btn:hover {
+        background: #c82333;
+      }
+
+      .main-content {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .tabs {
+        display: flex;
+        background: #f8f9fa;
+        border-bottom: 2px solid #dee2e6;
+      }
+
+      .tab {
+        flex: 1;
+        padding: 15px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        color: #666;
+        transition: all 0.3s;
+        position: relative;
+      }
+
+      .tab:hover {
+        background: #e9ecef;
+      }
+
+      .tab.active {
+        color: #007cba;
+        background: white;
+      }
+
+      .tab.active::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: #007cba;
+      }
+
+      .tab-content {
+        padding: 30px;
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      .section-title {
+        color: #333;
+        font-size: 22px;
+        margin-bottom: 10px;
+      }
+
+      .section-description {
+        color: #666;
+        margin-bottom: 30px;
+      }
+
+      .info-card {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        position: relative;
+      }
+
+      .info-label {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 5px;
+      }
+
+      .info-value {
+        color: #333;
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      .card-actions {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        display: flex;
+        gap: 5px;
+      }
+
+      .add-btn {
+        background: #007cba;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.3s;
+        margin-top: 20px;
+      }
+
+      .add-btn:hover {
+        background: #005a8b;
+      }
+
+      .contact-card {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-left: 4px solid #007cba;
+        position: relative;
+      }
+
+      .contact-actions {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        display: flex;
+        gap: 5px;
+      }
+
+      .btn-edit {
+        background: #17a2b8;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        transition: background 0.3s;
+      }
+
+      .btn-edit:hover {
+        background: #138496;
+      }
+
+      .btn-delete {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        transition: background 0.3s;
+      }
+
+      .btn-delete:hover {
+        background: #c82333;
+      }
+
+      .contact-name {
+        font-size: 18px;
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 10px;
+        padding-right: 100px;
+      }
+
+      .contact-detail {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 5px;
+      }
+
+      .message-preview {
+        background: white;
+        padding: 10px;
+        border-radius: 4px;
+        margin-top: 10px;
+        font-style: italic;
+        color: #555;
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 40px;
+        color: #999;
+      }
+
+      .form-section {
+        display: none;
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        margin-top: 20px;
+      }
+
+      .form-section.active {
+        display: block;
+      }
+
+      .edit-form {
+        display: none;
+        background: #e3f2fd;
+        border-radius: 8px;
+        padding: 15px;
+        margin-top: 15px;
+        border: 2px solid #2196f3;
+      }
+
+      .edit-form.active {
+        display: block;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-label {
+        display: block;
+        color: #333;
+        font-size: 14px;
+        margin-bottom: 5px;
+        font-weight: 500;
+      }
+
+      .form-input,
+      .form-select,
+      .form-textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+        transition: border-color 0.3s;
+      }
+
+      .form-input:focus,
+      .form-select:focus,
+      .form-textarea:focus {
+        outline: none;
+        border-color: #007cba;
+      }
+
+      .form-textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+
+      .form-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .btn-save {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.3s;
+      }
+
+      .btn-save:hover {
+        background: #218838;
+      }
+
+      .btn-cancel {
+        background: #6c757d;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.3s;
+      }
+
+      .btn-cancel:hover {
+        background: #5a6268;
+      }
+
+      .loading {
+        text-align: center;
+        padding: 40px;
+        color: #666;
+      }
+
+      .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 12px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        border: 1px solid #f5c6cb;
+      }
+
+      .success-message {
+        background: #d4edda;
+        color: #155724;
+        padding: 12px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        border: 1px solid #c3e6cb;
+      }
+
+      .contact-display {
+        display: block;
+      }
+
+      .contact-display.editing {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <h1>A Final Message Dashboard</h1>
+        <div class="user-info">
+          <span class="user-name" id="userName">Loading...</span>
+          <button class="logout-btn" id="logoutBtn">Logout</button>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Tabs -->
+        <div class="tabs">
+          <button class="tab active" data-tab="author">Author</button>
+          <button class="tab" data-tab="inner-circle">Inner Circle</button>
+          <button class="tab" data-tab="important-contacts">
+            Important Contacts
+          </button>
+          <button class="tab" data-tab="check-in">Check-In</button>
+        </div>
+
+        <!-- Author Tab -->
+        <div id="author" class="tab-content active">
+          <h2 class="section-title">Author Information</h2>
+          <p class="section-description">
+            Manage your account details and add a co-author if needed.
+          </p>
+
+          <div id="authorsList">
+            <!-- Main author info - populated dynamically -->
+          </div>
+
+          <div id="coAuthorSection">
+            <button class="add-btn" id="addCoAuthorBtn">
+              Add Co-Author (e.g., Spouse)
+            </button>
+          </div>
+
+          <!-- Add Co-Author Form -->
+          <div id="authorForm" class="form-section">
+            <h3 style="margin-bottom: 20px">Add Co-Author</h3>
+            <div class="form-group">
+              <label class="form-label">Full Name</label>
+              <input
+                type="text"
+                class="form-input"
+                id="newAuthorName"
+                placeholder="Enter full name"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone Number</label>
+              <input
+                type="tel"
+                class="form-input"
+                id="newAuthorPhone"
+                placeholder="Enter phone number"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input
+                type="email"
+                class="form-input"
+                id="newAuthorEmail"
+                placeholder="Enter email address"
+              />
+            </div>
+            <div class="form-buttons">
+              <button class="btn-save" id="saveCoAuthorBtn">
+                Save Co-Author
+              </button>
+              <button class="btn-cancel" id="cancelCoAuthorBtn">Cancel</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inner Circle Tab -->
+        <div id="inner-circle" class="tab-content">
+          <h2 class="section-title">Inner Circle Contacts</h2>
+          <p class="section-description">
+            These people will receive your final message if you don't respond to
+            check-ins.
+          </p>
+
+          <div id="innerCircleList">
+            <!-- Will be populated dynamically -->
+          </div>
+
+          <button class="add-btn" id="addInnerCircleBtn">
+            Add Inner Circle Contact
+          </button>
+
+          <!-- Add Inner Circle Form -->
+          <div id="innerCircleForm" class="form-section">
+            <h3 style="margin-bottom: 20px">Add Inner Circle Contact</h3>
+            <div class="form-group">
+              <label class="form-label">Full Name</label>
+              <input
+                type="text"
+                class="form-input"
+                id="newInnerName"
+                placeholder="Enter their full name"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone Number</label>
+              <input
+                type="tel"
+                class="form-input"
+                id="newInnerPhone"
+                placeholder="Enter their phone number"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input
+                type="email"
+                class="form-input"
+                id="newInnerEmail"
+                placeholder="Enter their email address"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Personal Message</label>
+              <textarea
+                class="form-textarea"
+                id="newInnerMessage"
+                placeholder="Write your final message to this person..."
+              ></textarea>
+            </div>
+            <div class="form-buttons">
+              <button class="btn-save" id="saveInnerCircleBtn">
+                Save Contact
+              </button>
+              <button class="btn-cancel" id="cancelInnerCircleBtn">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Important Contacts Tab -->
+        <div id="important-contacts" class="tab-content">
+          <h2 class="section-title">Important Contacts</h2>
+          <p class="section-description">
+            Essential contacts your inner circle should know about (attorneys,
+            financial advisors, etc.)
+          </p>
+
+          <div id="importantContactsList">
+            <!-- Will be populated dynamically -->
+          </div>
+
+          <button class="add-btn" id="addImportantContactBtn">
+            Add Important Contact
+          </button>
+
+          <!-- Add Important Contact Form -->
+          <div id="importantContactForm" class="form-section">
+            <h3 style="margin-bottom: 20px">Add Important Contact</h3>
+            <div class="form-group">
+              <label class="form-label">Contact Type</label>
+              <select class="form-select" id="newContactType">
+                <option value="">Choose contact type...</option>
+                <option value="Executor">Executor</option>
+                <option value="Attorney">Attorney</option>
+                <option value="Financial Advisor">Financial Advisor</option>
+                <option value="Life Insurance">Life Insurance</option>
+                <option value="Accountant">Accountant</option>
+                <option value="Veterinarian">Veterinarian</option>
+                <option value="Pet Care">Pet Care</option>
+                <option value="Physician">Physician</option>
+                <option value="Safe Deposit Box">Safe Deposit Box</option>
+                <option value="Crypto Wallet">Crypto Wallet</option>
+                <option value="Public Storage">Public Storage</option>
+                <option value="Private Vault">Private Vault</option>
+                <option value="Cord Blood Bank">Cord Blood Bank</option>
+                <option value="Genetic Bank">Genetic Bank</option>
+                <option value="Fertility Preservation">
+                  Fertility Preservation
+                </option>
+                <option value="529 Plan">529 Plan</option>
+                <option value="Donor Advised Fund">Donor Advised Fund</option>
+                <option value="Philanthropy">Philanthropy</option>
+                <option value="Domain Names">Domain Names</option>
+                <option value="Websites">Websites</option>
+                <option value="Copyrights">Copyrights</option>
+                <option value="Patents">Patents</option>
+                <option value="Trademarks">Trademarks</option>
+                <option value="Art">Art</option>
+                <option value="Funeral Arrangements">
+                  Funeral Arrangements
+                </option>
+                <option value="Memberships">Memberships</option>
+                <option value="Loyalty Programs">Loyalty Programs</option>
+                <option value="Family Heirlooms">Family Heirlooms</option>
+                <option value="Retirement Plan">Retirement Plan</option>
+                <option value="Pension Plan">Pension Plan</option>
+                <option value="Private Investments">Private Investments</option>
+                <option value="Business Interests">Business Interests</option>
+                <option value="Business Partners">Business Partners</option>
+                <option value="Real Estate">Real Estate</option>
+                <option value="Season Tickets">Season Tickets</option>
+                <option value="Family or Friend">Family or Friend</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Organization (Optional)</label>
+              <input
+                type="text"
+                class="form-input"
+                id="newOrganization"
+                placeholder="Company or organization name"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Contact Name</label>
+              <input
+                type="text"
+                class="form-input"
+                id="newImportantName"
+                placeholder="Contact's full name"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone Number (Optional)</label>
+              <input
+                type="tel"
+                class="form-input"
+                id="newImportantPhone"
+                placeholder="Contact's phone number"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address (Optional)</label>
+              <input
+                type="email"
+                class="form-input"
+                id="newImportantEmail"
+                placeholder="Contact's email address"
+              />
+            </div>
+            <div class="form-buttons">
+              <button class="btn-save" id="saveImportantContactBtn">
+                Save Contact
+              </button>
+              <button class="btn-cancel" id="cancelImportantContactBtn">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Check-In Tab -->
+        <div id="check-in" class="tab-content">
+          <h2 class="section-title">Check-In Settings</h2>
+          <p class="section-description">
+            Configure how often we should check if you're okay.
+          </p>
+
+          <div class="empty-state">
+            <p>Check-in functionality coming soon!</p>
+            <p style="margin-top: 10px; font-size: 14px">
+              You'll be able to set check-in intervals: Monthly, 3 Months, 6
+              Months, or Yearly
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Global variable to store user data
+      let userData = null;
+
+      // Initialize when page loads
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("Account page loaded");
+        setupEventListeners();
+        loadUserData();
+      });
+
+      // Set up all event listeners
+      function setupEventListeners() {
+        // Tab switching
+        document.querySelectorAll(".tab").forEach((tab) => {
+          tab.addEventListener("click", function () {
+            const tabName = this.getAttribute("data-tab");
+            switchTab(tabName);
+          });
+        });
+
+        // Logout button
+        document.getElementById("logoutBtn").addEventListener("click", logout);
+
+        // Co-Author form
+        document
+          .getElementById("addCoAuthorBtn")
+          .addEventListener("click", () => toggleForm("authorForm"));
+        document
+          .getElementById("saveCoAuthorBtn")
+          .addEventListener("click", saveCoAuthor);
+        document
+          .getElementById("cancelCoAuthorBtn")
+          .addEventListener("click", () => toggleForm("authorForm"));
+
+        // Inner Circle form
+        document
+          .getElementById("addInnerCircleBtn")
+          .addEventListener("click", () => toggleForm("innerCircleForm"));
+        document
+          .getElementById("saveInnerCircleBtn")
+          .addEventListener("click", saveInnerCircle);
+        document
+          .getElementById("cancelInnerCircleBtn")
+          .addEventListener("click", () => toggleForm("innerCircleForm"));
+
+        // Important Contacts form
+        document
+          .getElementById("addImportantContactBtn")
+          .addEventListener("click", () => toggleForm("importantContactForm"));
+        document
+          .getElementById("saveImportantContactBtn")
+          .addEventListener("click", saveImportantContact);
+        document
+          .getElementById("cancelImportantContactBtn")
+          .addEventListener("click", () => toggleForm("importantContactForm"));
+      }
+
+      // Switch tabs
+      function switchTab(tabName) {
+        console.log("Switching to tab:", tabName);
+
+        // Remove active class from all tabs and contents
+        document.querySelectorAll(".tab").forEach((tab) => {
+          tab.classList.remove("active");
+        });
+        document.querySelectorAll(".tab-content").forEach((content) => {
+          content.classList.remove("active");
+        });
+
+        // Add active class to selected tab and content
+        document
+          .querySelector(`[data-tab="${tabName}"]`)
+          .classList.add("active");
+        document.getElementById(tabName).classList.add("active");
+      }
+
+      // Toggle form visibility
+      function toggleForm(formId) {
+        const form = document.getElementById(formId);
+        form.classList.toggle("active");
+      }
+
+      // Load user data from API
+      async function loadUserData() {
+        try {
+          const response = await fetch("/api/account/user-data");
+          const data = await response.json();
+
+          if (!response.ok || !data.success) {
+            if (response.status === 401) {
+              // Not authenticated, redirect to login
+              window.location.href = "/login";
+              return;
+            }
+            throw new Error(data.error || "Failed to load account data");
+          }
+
+          userData = data;
+          displayUserData();
+        } catch (error) {
+          console.error("Error loading user data:", error);
+          showError("Failed to load account data. Please refresh the page.");
+        }
+      }
+
+      // Display user data in the UI
+      function displayUserData() {
+        if (!userData || !userData.user) return;
+
+        // Update header
+        document.getElementById(
+          "userName"
+        ).textContent = `Welcome, ${userData.user.name}`;
+
+        // Display main author info (editable but not deletable)
+        displayMainAuthor();
+
+        // Display co-author if exists (editable and deletable)
+        if (userData.coAuthor) {
+          displayCoAuthor(userData.coAuthor);
+        }
+
+        // Display inner circle contacts
+        displayInnerCircleContacts();
+
+        // Display important contacts
+        displayImportantContacts();
+      }
+
+      // Format phone number for display
+      function formatPhone(phone) {
+        if (!phone) return "";
+        // Remove +1 if present
+        phone = phone.replace("+1", "");
+        // Format as (XXX) XXX-XXXX
+        if (phone.length === 10) {
+          return `(${phone.slice(0, 3)}) ${phone.slice(3, 6)}-${phone.slice(
+            6
+          )}`;
+        }
+        return phone;
+      }
+
+      // Display main author (editable but not deletable)
+      function displayMainAuthor() {
+        const mainAuthorHtml = `
+          <div class="info-card" id="main-author-card">
+            <div class="card-actions">
+              <button class="btn-edit" id="edit-main-author-btn">Edit</button>
+            </div>
+            <div class="contact-display" id="main-author-display">
+              <div class="info-label">Name</div>
+              <div class="info-value" id="authorName">${
+                userData.user.name
+              }</div>
+              <div class="info-label" style="margin-top: 10px;">Phone Number</div>
+              <div class="info-value" id="authorPhone">${formatPhone(
+                userData.user.phone
+              )}</div>
+              <div class="info-label" style="margin-top: 10px;">Email Address</div>
+              <div class="info-value" id="authorEmail">${
+                userData.user.email
+              }</div>
+            </div>
+            <div class="edit-form" id="main-author-edit">
+              <h4 style="color: #007cba; margin-bottom: 15px;">Edit Account Details</h4>
+              <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-input" id="edit-main-name" value="${
+                  userData.user.name
+                }" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Phone Number</label>
+                <input type="tel" class="form-input" id="edit-main-phone" value="${
+                  userData.user.phone
+                }" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-input" id="edit-main-email" value="${
+                  userData.user.email
+                }" />
+              </div>
+              <div class="form-buttons">
+                <button class="btn-save" id="save-main-author-btn">Save Changes</button>
+                <button class="btn-cancel" id="cancel-main-author-btn">Cancel</button>
+              </div>
+            </div>
+          </div>
+        `;
+        document.getElementById("authorsList").innerHTML = mainAuthorHtml;
+
+        // Add event listeners for main author buttons
+        document
+          .getElementById("edit-main-author-btn")
+          .addEventListener("click", editMainAuthor);
+        document
+          .getElementById("save-main-author-btn")
+          .addEventListener("click", saveMainAuthorEdit);
+        document
+          .getElementById("cancel-main-author-btn")
+          .addEventListener("click", cancelMainAuthorEdit);
+      }
+
+      // Display co-author (editable and deletable)
+      function displayCoAuthor(coAuthor) {
+        const coAuthorHtml = `
+          <div class="info-card" style="margin-top: 20px; border-left: 4px solid #28a745;" id="coauthor-card">
+            <div class="card-actions">
+              <button class="btn-edit" id="edit-coauthor-btn">Edit</button>
+              <button class="btn-delete" id="delete-coauthor-btn" data-name="${
+                coAuthor.name
+              }">Delete</button>
+            </div>
+            <div class="contact-display" id="coauthor-display">
+              <h4 style="color: #28a745; margin-bottom: 15px;">Co-Author</h4>
+              <div class="info-label">Name</div>
+              <div class="info-value">${coAuthor.name}</div>
+              <div class="info-label" style="margin-top: 10px;">Phone</div>
+              <div class="info-value">${formatPhone(coAuthor.phone)}</div>
+              <div class="info-label" style="margin-top: 10px;">Email</div>
+              <div class="info-value">${coAuthor.email}</div>
+            </div>
+            <div class="edit-form" id="coauthor-edit">
+              <h4 style="color: #28a745; margin-bottom: 15px;">Edit Co-Author</h4>
+              <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-input" id="edit-coauthor-name" value="${
+                  coAuthor.name
+                }" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Phone Number</label>
+                <input type="tel" class="form-input" id="edit-coauthor-phone" value="${
+                  coAuthor.phone
+                }" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-input" id="edit-coauthor-email" value="${
+                  coAuthor.email
+                }" />
+              </div>
+              <div class="form-buttons">
+                <button class="btn-save" id="save-coauthor-btn">Save Changes</button>
+                <button class="btn-cancel" id="cancel-coauthor-btn">Cancel</button>
+              </div>
+            </div>
+          </div>
+        `;
+        document
+          .getElementById("authorsList")
+          .insertAdjacentHTML("beforeend", coAuthorHtml);
+        document.getElementById("addCoAuthorBtn").style.display = "none";
+
+        // Add event listeners for co-author buttons
+        document
+          .getElementById("edit-coauthor-btn")
+          .addEventListener("click", editCoAuthor);
+        document
+          .getElementById("save-coauthor-btn")
+          .addEventListener("click", saveCoAuthorEdit);
+        document
+          .getElementById("cancel-coauthor-btn")
+          .addEventListener("click", cancelCoAuthorEdit);
+        document
+          .getElementById("delete-coauthor-btn")
+          .addEventListener("click", function () {
+            const name = this.getAttribute("data-name");
+            deleteCoAuthor(name);
+          });
+      }
+
+      // Display inner circle contacts with edit/delete functionality
+      function displayInnerCircleContacts() {
+        const container = document.getElementById("innerCircleList");
+
+        if (
+          !userData.innerCircleContacts ||
+          userData.innerCircleContacts.length === 0
+        ) {
+          container.innerHTML = `
+            <div class="empty-state">
+              <p>No inner circle contacts yet.</p>
+              <p style="margin-top: 10px; font-size: 14px;">Add people who should receive your final message.</p>
+            </div>
+          `;
+          return;
+        }
+
+        let html = "";
+        userData.innerCircleContacts.forEach((contact, index) => {
+          const contactId = contact.id || index;
+          html += `
+            <div class="contact-card" id="inner-card-${contactId}">
+              <div class="contact-actions">
+                <button class="btn-edit edit-inner-btn" data-contact-id="${contactId}">Edit</button>
+                <button class="btn-delete delete-inner-btn" data-contact-id="${contactId}" data-contact-name="${
+            contact.name
+          }">Delete</button>
+              </div>
+              <div class="contact-display" id="inner-display-${contactId}">
+                <div class="contact-name">${contact.name}</div>
+                ${
+                  contact.phone
+                    ? `<div class="contact-detail">📱 ${formatPhone(
+                        contact.phone
+                      )}</div>`
+                    : ""
+                }
+                ${
+                  contact.email
+                    ? `<div class="contact-detail">✉️ ${contact.email}</div>`
+                    : ""
+                }
+                ${
+                  contact.personal_message
+                    ? `<div class="message-preview">"${contact.personal_message}"</div>`
+                    : ""
+                }
+              </div>
+              <div class="edit-form" id="inner-edit-${contactId}">
+                <h4 style="color: #007cba; margin-bottom: 15px;">Edit Inner Circle Contact</h4>
+                <div class="form-group">
+                  <label class="form-label">Full Name</label>
+                  <input type="text" class="form-input" id="edit-inner-name-${contactId}" value="${
+            contact.name
+          }" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Phone Number</label>
+                  <input type="tel" class="form-input" id="edit-inner-phone-${contactId}" value="${
+            contact.phone || ""
+          }" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Email Address</label>
+                  <input type="email" class="form-input" id="edit-inner-email-${contactId}" value="${
+            contact.email || ""
+          }" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Personal Message</label>
+                  <textarea class="form-textarea" id="edit-inner-message-${contactId}">${
+            contact.personal_message || ""
+          }</textarea>
+                </div>
+                <div class="form-buttons">
+                  <button class="btn-save save-inner-btn" data-contact-id="${contactId}">Save Changes</button>
+                  <button class="btn-cancel cancel-inner-btn" data-contact-id="${contactId}">Cancel</button>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        container.innerHTML = html;
+
+        // Add event listeners for inner circle buttons
+        container.querySelectorAll(".edit-inner-btn").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            editInnerCircle(this.getAttribute("data-contact-id"));
+          });
+        });
+
+        container.querySelectorAll(".delete-inner-btn").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            deleteContact(
+              "inner_circle",
+              this.getAttribute("data-contact-id"),
+              this.getAttribute("data-contact-name")
+            );
+          });
+        });
+
+        container.querySelectorAll(".save-inner-btn").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            saveInnerCircleEdit(this.getAttribute("data-contact-id"));
+          });
+        });
+
+        container.querySelectorAll(".cancel-inner-btn").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            cancelInnerCircleEdit(this.getAttribute("data-contact-id"));
+          });
+        });
+      }
+
+      // Display important contacts with edit/delete functionality
+      function displayImportantContacts() {
+        const container = document.getElementById("importantContactsList");
+
+        if (
+          !userData.importantContacts ||
+          userData.importantContacts.length === 0
+        ) {
+          container.innerHTML = `
+            <div class="empty-state">
+              <p>No important contacts yet.</p>
+              <p style="margin-top: 10px; font-size: 14px;">Add contacts your inner circle should know about.</p>
+            </div>
+          `;
+          return;
+        }
+
+        let html = "";
+        userData.importantContacts.forEach((contact, index) => {
+          const contactId = contact.id || index;
+          html += `
+            <div class="contact-card" id="important-card-${contactId}">
+              <div class="contact-actions">
+                <button class="btn-edit edit-important-btn" data-contact-id="${contactId}">Edit</button>
+                <button class="btn-delete delete-important-btn" data-contact-id="${contactId}" data-contact-name="${
+            contact.name
+          }">Delete</button>
+              </div>
+              <div class="contact-display" id="important-display-${contactId}">
+                <div class="contact-name">${contact.name}</div>
+                <div class="contact-detail" style="font-weight: 600; color: #007cba;">${
+                  contact.contact_type
+                }</div>
+                ${
+                  contact.organization
+                    ? `<div class="contact-detail">🏢 ${contact.organization}</div>`
+                    : ""
+                }
+                ${
+                  contact.phone
+                    ? `<div class="contact-detail">📱 ${formatPhone(
+                        contact.phone
+                      )}</div>`
+                    : ""
+                }
+                ${
+                  contact.email
+                    ? `<div class="contact-detail">✉️ ${contact.email}</div>`
+                    : ""
+                }
+              </div>
+              <div class="edit-form" id="important-edit-${contactId}">
+                <h4 style="color: #007cba; margin-bottom: 15px;">Edit Important Contact</h4>
+                <div class="form-group">
+                  <label class="form-label">Contact Type</label>
+                  <select class="form-select" id="edit-important-type-${contactId}">
+                    <option value="">Choose contact type...</option>
+                    <option value="Executor" ${
+                      contact.contact_type === "Executor" ? "selected" : ""
+                    }>Executor</option>
+                    <option value="Attorney" ${
+                      contact.contact_type === "Attorney" ? "selected" : ""
+                    }>Attorney</option>
+                    <option value="Financial Advisor" ${
+                      contact.contact_type === "Financial Advisor"
+                        ? "selected"
+                        : ""
+                    }>Financial Advisor</option>
+                    <option value="Life Insurance" ${
+                      contact.contact_type === "Life Insurance"
+                        ? "selected"
+                        : ""
+                    }>Life Insurance</option>
+                    <option value="Accountant" ${
+                      contact.contact_type === "Accountant" ? "selected" : ""
+                    }>Accountant</option>
+                    <option value="Veterinarian" ${
+                      contact.contact_type === "Veterinarian" ? "selected" : ""
+                    }>Veterinarian</option>
+                    <option value="Pet Care" ${
+                      contact.contact_type === "Pet Care" ? "selected" : ""
+                    }>Pet Care</option>
+                    <option value="Physician" ${
+                      contact.contact_type === "Physician" ? "selected" : ""
+                    }>Physician</option>
+                    <option value="Safe Deposit Box" ${
+                      contact.contact_type === "Safe Deposit Box"
+                        ? "selected"
+                        : ""
+                    }>Safe Deposit Box</option>
+                    <option value="Crypto Wallet" ${
+                      contact.contact_type === "Crypto Wallet" ? "selected" : ""
+                    }>Crypto Wallet</option>
+                    <option value="Other" ${
+                      contact.contact_type === "Other" ? "selected" : ""
+                    }>Other</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Organization (Optional)</label>
+                  <input type="text" class="form-input" id="edit-important-organization-${contactId}" value="${
+            contact.organization || ""
+          }" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Contact Name</label>
+                  <input type="text" class="form-input" id="edit-important-name-${contactId}" value="${
+            contact.name
+          }" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Phone Number (Optional)</label>
+                  <input type="tel" class="form-input" id="edit-important-phone-${contactId}" value="${
+            contact.phone || ""
+          }" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Email Address (Optional)</label>
+                  <input type="email" class="form-input" id="edit-important-email-${contactId}" value="${
+            contact.email || ""
+          }" />
+                </div>
+                <div class="form-buttons">
+                  <button class="btn-save save-important-btn" data-contact-id="${contactId}">Save Changes</button>
+                  <button class="btn-cancel cancel-important-btn" data-contact-id="${contactId}">Cancel</button>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        container.innerHTML = html;
+
+        // Add event listeners for important contact buttons
+        container.querySelectorAll(".edit-important-btn").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            editImportantContact(this.getAttribute("data-contact-id"));
+          });
+        });
+
+        container.querySelectorAll(".delete-important-btn").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            deleteContact(
+              "important_contact",
+              this.getAttribute("data-contact-id"),
+              this.getAttribute("data-contact-name")
+            );
+          });
+        });
+
+        container.querySelectorAll(".save-important-btn").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            saveImportantContactEdit(this.getAttribute("data-contact-id"));
+          });
+        });
+
+        container.querySelectorAll(".cancel-important-btn").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            cancelImportantContactEdit(this.getAttribute("data-contact-id"));
+          });
+        });
+      }
+
+      // Edit functions
+      function editMainAuthor() {
+        document.getElementById("main-author-display").style.display = "none";
+        document.getElementById("main-author-edit").classList.add("active");
+      }
+
+      function cancelMainAuthorEdit() {
+        document.getElementById("main-author-display").style.display = "block";
+        document.getElementById("main-author-edit").classList.remove("active");
+      }
+
+      function editCoAuthor() {
+        document.getElementById("coauthor-display").style.display = "none";
+        document.getElementById("coauthor-edit").classList.add("active");
+      }
+
+      function cancelCoAuthorEdit() {
+        document.getElementById("coauthor-display").style.display = "block";
+        document.getElementById("coauthor-edit").classList.remove("active");
+      }
+
+      function editInnerCircle(contactId) {
+        document.getElementById(`inner-display-${contactId}`).style.display =
+          "none";
+        document
+          .getElementById(`inner-edit-${contactId}`)
+          .classList.add("active");
+      }
+
+      function cancelInnerCircleEdit(contactId) {
+        document.getElementById(`inner-display-${contactId}`).style.display =
+          "block";
+        document
+          .getElementById(`inner-edit-${contactId}`)
+          .classList.remove("active");
+      }
+
+      function editImportantContact(contactId) {
+        document.getElementById(
+          `important-display-${contactId}`
+        ).style.display = "none";
+        document
+          .getElementById(`important-edit-${contactId}`)
+          .classList.add("active");
+      }
+
+      function cancelImportantContactEdit(contactId) {
+        document.getElementById(
+          `important-display-${contactId}`
+        ).style.display = "block";
+        document
+          .getElementById(`important-edit-${contactId}`)
+          .classList.remove("active");
+      }
+
+      // Save edit functions
+      async function saveMainAuthorEdit() {
+        const name = document.getElementById("edit-main-name").value;
+        const phone = document.getElementById("edit-main-phone").value;
+        const email = document.getElementById("edit-main-email").value;
+
+        if (!name || !phone || !email) {
+          alert("Please fill in all fields");
+          return;
+        }
+
+        try {
+          const response = await fetch("/api/account/update-main-author", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, phone, email }),
+          });
+
+          const data = await response.json();
+          if (data.success) {
+            alert("Account details updated successfully!");
+            location.reload();
+          } else {
+            alert(data.error || "Failed to update account details");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Failed to update account details");
+        }
+      }
+
+      async function saveCoAuthorEdit() {
+        const name = document.getElementById("edit-coauthor-name").value;
+        const phone = document.getElementById("edit-coauthor-phone").value;
+        const email = document.getElementById("edit-coauthor-email").value;
+
+        if (!name || !phone || !email) {
+          alert("Please fill in all fields");
+          return;
+        }
+
+        try {
+          const response = await fetch("/api/account/update-coauthor", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, phone, email }),
+          });
+
+          const data = await response.json();
+          if (data.success) {
+            alert("Co-author updated successfully!");
+            location.reload();
+          } else {
+            alert(data.error || "Failed to update co-author");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Failed to update co-author");
+        }
+      }
+
+      async function saveInnerCircleEdit(contactId) {
+        const name = document.getElementById(
+          `edit-inner-name-${contactId}`
+        ).value;
+        const phone = document.getElementById(
+          `edit-inner-phone-${contactId}`
+        ).value;
+        const email = document.getElementById(
+          `edit-inner-email-${contactId}`
+        ).value;
+        const message = document.getElementById(
+          `edit-inner-message-${contactId}`
+        ).value;
+
+        if (!name) {
+          alert("Please enter at least a name");
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            `/api/account/update-contact/inner_circle/${contactId}`,
+            {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                name,
+                phone,
+                email,
+                personal_message: message,
+              }),
+            }
+          );
+
+          const data = await response.json();
+          if (data.success) {
+            alert("Inner circle contact updated successfully!");
+            location.reload();
+          } else {
+            alert(data.error || "Failed to update contact");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Failed to update contact");
+        }
+      }
+
+      async function saveImportantContactEdit(contactId) {
+        const type = document.getElementById(
+          `edit-important-type-${contactId}`
+        ).value;
+        const organization = document.getElementById(
+          `edit-important-organization-${contactId}`
+        ).value;
+        const name = document.getElementById(
+          `edit-important-name-${contactId}`
+        ).value;
+        const phone = document.getElementById(
+          `edit-important-phone-${contactId}`
+        ).value;
+        const email = document.getElementById(
+          `edit-important-email-${contactId}`
+        ).value;
+
+        if (!type || !name) {
+          alert("Please select a contact type and enter a name");
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            `/api/account/update-contact/important_contact/${contactId}`,
+            {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                contact_type: type,
+                organization,
+                name,
+                phone,
+                email,
+              }),
+            }
+          );
+
+          const data = await response.json();
+          if (data.success) {
+            alert("Important contact updated successfully!");
+            location.reload();
+          } else {
+            alert(data.error || "Failed to update contact");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Failed to update contact");
+        }
+      }
+
+      // Delete functions
+      async function deleteCoAuthor(coAuthorName) {
+        if (
+          confirm(`Are you sure you want to delete co-author ${coAuthorName}?`)
+        ) {
+          try {
+            const response = await fetch("/api/account/delete-coauthor", {
+              method: "DELETE",
+            });
+
+            const data = await response.json();
+            if (data.success) {
+              alert("Co-author deleted successfully!");
+              location.reload();
+            } else {
+              alert(data.error || "Failed to delete co-author");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Failed to delete co-author");
+          }
+        }
+      }
+
+      function deleteContact(type, contactId, contactName) {
+        if (confirm(`Are you sure you want to delete ${contactName}?`)) {
+          fetch(`/api/account/delete-contact/${type}/${contactId}`, {
+            method: "DELETE",
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                location.reload();
+              } else {
+                alert("Failed to delete contact");
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              alert("Failed to delete contact");
+            });
+        }
+      }
+
+      // Save co-author
+      async function saveCoAuthor() {
+        const name = document.getElementById("newAuthorName").value;
+        const phone = document.getElementById("newAuthorPhone").value;
+        const email = document.getElementById("newAuthorEmail").value;
+
+        if (!name || !phone || !email) {
+          alert("Please fill in all fields");
+          return;
+        }
+
+        try {
+          const response = await fetch("/api/account/add-coauthor", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ name, phone, email }),
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            alert("Co-author added successfully!");
+            toggleForm("authorForm");
+            // Clear form
+            document.getElementById("newAuthorName").value = "";
+            document.getElementById("newAuthorPhone").value = "";
+            document.getElementById("newAuthorEmail").value = "";
+            // Reload page to show new data
+            location.reload();
+          } else {
+            alert(data.error || "Failed to add co-author");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Failed to add co-author");
+        }
+      }
+
+      // Save inner circle contact
+      async function saveInnerCircle() {
+        const name = document.getElementById("newInnerName").value;
+        const phone = document.getElementById("newInnerPhone").value;
+        const email = document.getElementById("newInnerEmail").value;
+        const message = document.getElementById("newInnerMessage").value;
+
+        if (!name) {
+          alert("Please enter at least a name");
+          return;
+        }
+
+        try {
+          const response = await fetch("/api/account/add-inner-circle", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ name, phone, email, message }),
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            alert("Inner circle contact added successfully!");
+            toggleForm("innerCircleForm");
+            // Clear form
+            document.getElementById("newInnerName").value = "";
+            document.getElementById("newInnerPhone").value = "";
+            document.getElementById("newInnerEmail").value = "";
+            document.getElementById("newInnerMessage").value = "";
+            // Reload page
+            location.reload();
+          } else {
+            alert(data.error || "Failed to add contact");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Failed to add contact");
+        }
+      }
+
+      // Save important contact
+      async function saveImportantContact() {
+        const type = document.getElementById("newContactType").value;
+        const organization = document.getElementById("newOrganization").value;
+        const name = document.getElementById("newImportantName").value;
+        const phone = document.getElementById("newImportantPhone").value;
+        const email = document.getElementById("newImportantEmail").value;
+
+        if (!type || !name) {
+          alert("Please select a contact type and enter a name");
+          return;
+        }
+
+        try {
+          const response = await fetch("/api/account/add-important-contact", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ type, organization, name, phone, email }),
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            alert("Important contact added successfully!");
+            toggleForm("importantContactForm");
+            // Clear form
+            document.getElementById("newContactType").value = "";
+            document.getElementById("newOrganization").value = "";
+            document.getElementById("newImportantName").value = "";
+            document.getElementById("newImportantPhone").value = "";
+            document.getElementById("newImportantEmail").value = "";
+            // Reload page
+            location.reload();
+          } else {
+            alert(data.error || "Failed to add contact");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Failed to add contact");
+        }
+      }
+
+      // Logout function
+      async function logout() {
+        try {
+          const response = await fetch("/api/logout", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          const data = await response.json();
+
+          if (response.ok && data.success) {
+            // Clear any local storage if needed
+            sessionStorage.clear();
+            localStorage.clear();
+
+            // Redirect to homepage
+            window.location.href = "/";
+          } else {
+            throw new Error(data.error || "Logout failed");
+          }
+        } catch (error) {
+          console.error("Logout error:", error);
+          alert("Failed to logout. Please try again.");
+        }
+      }
+
+      // Show error message
+      function showError(message) {
+        const header = document.querySelector(".header");
+        const errorDiv = document.createElement("div");
+        errorDiv.className = "error-message";
+        errorDiv.textContent = message;
+        header.parentNode.insertBefore(errorDiv, header.nextSibling);
+
+        setTimeout(() => errorDiv.remove(), 5000);
+      }
+    </script>
+  </body>
+</html>

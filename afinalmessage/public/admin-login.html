@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login - A Final Message</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .admin-login-container {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+      }
+
+      .logo {
+        margin-bottom: 30px;
+      }
+
+      .logo h1 {
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+
+      .logo p {
+        color: #666;
+        font-size: 14px;
+      }
+
+      .form-title {
+        color: #333;
+        font-size: 28px;
+        margin-bottom: 10px;
+        font-weight: 600;
+      }
+
+      .form-subtitle {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 30px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+      }
+
+      .form-label {
+        display: block;
+        color: #333;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 8px;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.3s;
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: #007cba;
+        box-shadow: 0 0 0 3px rgba(0, 124, 186, 0.1);
+      }
+
+      .form-input.error {
+        border-color: #dc3545;
+      }
+
+      .admin-btn {
+        width: 100%;
+        background: #007cba;
+        color: white;
+        border: none;
+        padding: 14px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.3s;
+        margin-top: 10px;
+      }
+
+      .admin-btn:hover {
+        background: #005a8b;
+      }
+
+      .admin-btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
+
+      .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border: 1px solid #f5c6cb;
+        font-size: 14px;
+        display: none;
+      }
+
+      .error-message.show {
+        display: block;
+      }
+
+      .back-link {
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      .back-link a {
+        color: #666;
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      .back-link a:hover {
+        color: #007cba;
+      }
+
+      .security-note {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 8px;
+        padding: 15px;
+        margin-top: 20px;
+        font-size: 13px;
+        color: #856404;
+        text-align: left;
+      }
+
+      .loading-spinner {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 1s ease-in-out infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .admin-login-container {
+          padding: 30px 20px;
+        }
+
+        .form-title {
+          font-size: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="admin-login-container">
+      <!-- Logo -->
+      <div class="logo">
+        <h1>🔒 Admin Access</h1>
+        <p>A Final Message - Internal Portal</p>
+      </div>
+
+      <div class="form-title">Admin Login</div>
+      <div class="form-subtitle">Enter your admin credentials to continue</div>
+
+      <!-- Error Message -->
+      <div id="errorMessage" class="error-message"></div>
+
+      <form id="adminLoginForm">
+        <div class="form-group">
+          <label class="form-label" for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            class="form-input"
+            required
+            autocomplete="username"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-input"
+            required
+            autocomplete="current-password"
+          />
+        </div>
+
+        <button type="submit" id="loginBtn" class="admin-btn">
+          <span id="btnText">Access Admin Dashboard</span>
+          <span id="btnLoader" style="display: none">
+            <span class="loading-spinner"></span> Authenticating...
+          </span>
+        </button>
+      </form>
+
+      <div class="security-note">
+        <strong>🛡️ Security Notice:</strong><br />
+        This is a restricted area for authorized personnel only. All access
+        attempts are logged and monitored.
+      </div>
+
+      <div class="back-link">
+        <a href="/">← Back to Homepage</a>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("Admin login page loaded");
+
+        const loginForm = document.getElementById("adminLoginForm");
+        loginForm.addEventListener("submit", handleAdminLogin);
+      });
+
+      async function handleAdminLogin(event) {
+        event.preventDefault();
+        console.log("Admin login form submitted");
+
+        hideMessages();
+
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
+
+        if (!username || !password) {
+          showError("Please enter both username and password");
+          return;
+        }
+
+        setLoadingState(true);
+
+        try {
+          const response = await fetch("/api/admin/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok && data.success) {
+            console.log("Admin login successful");
+            // Redirect to admin dashboard
+            window.location.href = "/admin";
+          } else {
+            showError(data.error || "Invalid credentials");
+          }
+        } catch (error) {
+          console.error("Admin login error:", error);
+          showError("Connection error. Please try again.");
+        } finally {
+          setLoadingState(false);
+        }
+      }
+
+      function showError(message) {
+        const errorDiv = document.getElementById("errorMessage");
+        errorDiv.textContent = message;
+        errorDiv.classList.add("show");
+
+        // Add error styling to inputs
+        document.getElementById("username").classList.add("error");
+        document.getElementById("password").classList.add("error");
+
+        // Remove error styling after delay
+        setTimeout(() => {
+          document.getElementById("username").classList.remove("error");
+          document.getElementById("password").classList.remove("error");
+        }, 3000);
+      }
+
+      function hideMessages() {
+        document.getElementById("errorMessage").classList.remove("show");
+      }
+
+      function setLoadingState(isLoading) {
+        const loginBtn = document.getElementById("loginBtn");
+        const btnText = document.getElementById("btnText");
+        const btnLoader = document.getElementById("btnLoader");
+
+        loginBtn.disabled = isLoading;
+        btnText.style.display = isLoading ? "none" : "inline";
+        btnLoader.style.display = isLoading ? "inline" : "none";
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,147 @@
+{
+  "user:+16502005699": {
+    "id": "fe9cae29-f297-41e8-95b3-82ce9a9214ae",
+    "name": "Polly Liu",
+    "phone": "+16502005699",
+    "email": "edhan235@gmail.com",
+    "stripe_customer_id": "cus_demo_1755931932214",
+    "stripe_subscription_id": "sub_demo_1755931932214",
+    "timezone": "America/Los_Angeles",
+    "is_active": true,
+    "subscription_status": "inactive",
+    "next_check_in": null,
+    "created_at": "2025-08-23T06:53:02.105Z",
+    "updated_at": "2025-08-24T06:58:52.433Z",
+    "check_in_frequency": 3,
+    "subscription_start_date": "2025-08-23T06:53:02.105Z",
+    "next_check_in_due": "2025-11-24T17:50:45.033Z",
+    "missed_check_ins": 0,
+    "last_check_in_date": "2025-08-24T17:50:45.033Z",
+    "last_reminder_sent": null,
+    "final_alert_sent": null
+  },
+  "email:edhan235@gmail.com": {
+    "userId": "fe9cae29-f297-41e8-95b3-82ce9a9214ae",
+    "phone": "+16502005699"
+  },
+  "userId:fe9cae29-f297-41e8-95b3-82ce9a9214ae": {
+    "id": "fe9cae29-f297-41e8-95b3-82ce9a9214ae",
+    "name": "Polly Liu",
+    "phone": "+16502005699",
+    "email": "edhan235@gmail.com",
+    "stripe_customer_id": "cus_demo_1755931932214",
+    "stripe_subscription_id": "sub_demo_1755931932214",
+    "timezone": "America/Los_Angeles",
+    "is_active": true,
+    "subscription_status": "inactive",
+    "next_check_in": null,
+    "created_at": "2025-08-23T06:53:02.105Z",
+    "updated_at": "2025-08-24T06:58:52.433Z",
+    "check_in_frequency": 3,
+    "subscription_start_date": "2025-08-23T06:53:02.105Z",
+    "next_check_in_due": "2025-11-24T17:50:45.033Z",
+    "missed_check_ins": 0,
+    "last_check_in_date": "2025-08-24T17:50:45.033Z",
+    "last_reminder_sent": null,
+    "final_alert_sent": null
+  },
+  "inner_circle:fe9cae29-f297-41e8-95b3-82ce9a9214ae:ba029efd-5668-4e71-8400-06e09b30584e": {
+    "id": "ba029efd-5668-4e71-8400-06e09b30584e",
+    "user_id": "fe9cae29-f297-41e8-95b3-82ce9a9214ae",
+    "name": "Cooper Han",
+    "phone": "(650) 880-8486",
+    "email": "coopertysonhan@gmail.com",
+    "personal_message": "Hi Coop",
+    "created_at": "2025-08-23T06:53:02.107Z"
+  },
+  "important_contact:fe9cae29-f297-41e8-95b3-82ce9a9214ae:2181cd55-392f-46f0-827f-3ae9a4e7f7f7": {
+    "id": "2181cd55-392f-46f0-827f-3ae9a4e7f7f7",
+    "user_id": "fe9cae29-f297-41e8-95b3-82ce9a9214ae",
+    "contact_type": "Veterinarian",
+    "name": "Amanda",
+    "organization": "Country Pet Wash",
+    "phone": "(408) 555-1212",
+    "email": "amanda@pet.com",
+    "created_at": "2025-08-23T06:53:02.107Z",
+    "updated_at": "2025-08-24T05:27:55.907Z"
+  },
+  "user:+16502005698": {
+    "id": "155cd3cf-0725-4071-a00a-b9a554e5501c",
+    "name": "Ed Han",
+    "phone": "+16502005698",
+    "email": "edhan235+test3@gmail.com",
+    "stripe_customer_id": "cus_demo_1755986603571",
+    "stripe_subscription_id": "sub_demo_1755986603571",
+    "timezone": "America/Los_Angeles",
+    "is_active": true,
+    "subscription_status": "active",
+    "next_check_in": null,
+    "created_at": "2025-08-23T22:06:54.088Z",
+    "updated_at": "2025-08-24T06:58:52.434Z",
+    "check_in_frequency": 3,
+    "subscription_start_date": "2025-08-23T22:06:54.088Z",
+    "next_check_in_due": "2025-11-23T22:06:54.088Z",
+    "missed_check_ins": 0,
+    "last_check_in_date": null
+  },
+  "email:edhan235+test3@gmail.com": {
+    "userId": "155cd3cf-0725-4071-a00a-b9a554e5501c",
+    "phone": "+16502005698"
+  },
+  "userId:155cd3cf-0725-4071-a00a-b9a554e5501c": {
+    "id": "155cd3cf-0725-4071-a00a-b9a554e5501c",
+    "name": "Ed Han",
+    "phone": "+16502005698",
+    "email": "edhan235+test3@gmail.com",
+    "stripe_customer_id": "cus_demo_1755986603571",
+    "stripe_subscription_id": "sub_demo_1755986603571",
+    "timezone": "America/Los_Angeles",
+    "is_active": true,
+    "subscription_status": "active",
+    "next_check_in": null,
+    "created_at": "2025-08-23T22:06:54.088Z",
+    "updated_at": "2025-08-24T06:58:52.434Z",
+    "check_in_frequency": 3,
+    "subscription_start_date": "2025-08-23T22:06:54.088Z",
+    "next_check_in_due": "2025-11-23T22:06:54.088Z",
+    "missed_check_ins": 0,
+    "last_check_in_date": null
+  },
+  "inner_circle:155cd3cf-0725-4071-a00a-b9a554e5501c:667c4062-9f95-4dff-86e8-b87447f8b695": {
+    "id": "667c4062-9f95-4dff-86e8-b87447f8b695",
+    "user_id": "155cd3cf-0725-4071-a00a-b9a554e5501c",
+    "name": "Personal Contact",
+    "phone": "(655) 534-3488",
+    "email": "personal@contact.com",
+    "personal_message": "write personal message",
+    "created_at": "2025-08-23T22:06:54.089Z"
+  },
+  "important_contact:155cd3cf-0725-4071-a00a-b9a554e5501c:95aa02f9-61d0-40d3-8f86-8bfeee667f79": {
+    "id": "95aa02f9-61d0-40d3-8f86-8bfeee667f79",
+    "user_id": "155cd3cf-0725-4071-a00a-b9a554e5501c",
+    "contact_type": "Crypto Wallet",
+    "name": "No one",
+    "organization": "Coinbase",
+    "phone": "(777) 777-7777",
+    "email": "djkfsalkfj@gmldjf.com",
+    "created_at": "2025-08-23T22:06:54.090Z"
+  },
+  "checkin_token:fa136854fecd41180c9709eb9b5e2efa1cd96e5045b35e88ef49cc3e14f8e93a": {
+    "userId": "fe9cae29-f297-41e8-95b3-82ce9a9214ae",
+    "created": "2025-08-24T16:22:26.754Z",
+    "expires": "2025-09-23T16:22:26.754Z",
+    "used": false
+  },
+  "checkin_token:969c7126e0fa0f8f547b2745b53baa9784a7bdcdeae97366b481f0df25492ccb": {
+    "userId": "fe9cae29-f297-41e8-95b3-82ce9a9214ae",
+    "created": "2025-08-24T17:48:27.767Z",
+    "expires": "2025-09-23T17:48:27.767Z",
+    "used": false
+  },
+  "checkin_token:2cdaec52a23e6092988aded863eb51b241ef4789970ce701eaf36c3f12a93cf0": {
+    "userId": "fe9cae29-f297-41e8-95b3-82ce9a9214ae",
+    "created": "2025-08-24T17:50:46.664Z",
+    "expires": "2025-09-23T17:50:46.664Z",
+    "used": false
+  }
+}

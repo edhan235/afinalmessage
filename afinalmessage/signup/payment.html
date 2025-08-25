@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payment - A Final Message</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .signup-container {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        width: 100%;
+        max-width: 500px;
+        text-align: center;
+      }
+
+      .logo {
+        color: #007cba;
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-bottom: 30px;
+      }
+
+      .step-indicator {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+      }
+
+      .step {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: #e0e0e0;
+        color: #666;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 5px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .step.active {
+        background: #007cba;
+        color: white;
+      }
+
+      .step.completed {
+        background: #28a745;
+        color: white;
+      }
+
+      h1 {
+        color: #333;
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        color: #666;
+        margin-bottom: 30px;
+        line-height: 1.5;
+      }
+
+      .pricing-card {
+        background: linear-gradient(135deg, #007cba 0%, #005a8b 100%);
+        color: white;
+        border-radius: 10px;
+        padding: 30px;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .price {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .price-period {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        margin-bottom: 20px;
+      }
+
+      .features {
+        list-style: none;
+        text-align: left;
+        margin-bottom: 20px;
+      }
+
+      .features li {
+        padding: 8px 0;
+        padding-left: 25px;
+        position: relative;
+      }
+
+      .features li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #28a745;
+        font-weight: bold;
+      }
+
+      .demo-notice {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 30px;
+        color: #856404;
+      }
+
+      .demo-notice h3 {
+        color: #856404;
+        margin-bottom: 10px;
+      }
+
+      .card-element {
+        background: #f8f9fa;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #666;
+        font-style: italic;
+      }
+
+      .btn {
+        width: 100%;
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 15px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-top: 10px;
+      }
+
+      .btn:hover {
+        background: #218838;
+        transform: translateY(-2px);
+      }
+
+      .btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .btn-secondary {
+        background: #6c757d;
+        margin-top: 15px;
+      }
+
+      .btn-secondary:hover {
+        background: #545b62;
+      }
+
+      .btn.loading::after {
+        content: " ...";
+        animation: dots 1.5s steps(5, end) infinite;
+      }
+
+      @keyframes dots {
+        0%,
+        20% {
+          color: rgba(0, 0, 0, 0);
+          text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 rgba(0, 0, 0, 0);
+        }
+        40% {
+          color: white;
+          text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 rgba(0, 0, 0, 0);
+        }
+        60% {
+          text-shadow: 0.25em 0 0 white, 0.5em 0 0 rgba(0, 0, 0, 0);
+        }
+        80%,
+        100% {
+          text-shadow: 0.25em 0 0 white, 0.5em 0 0 white;
+        }
+      }
+
+      .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f1aeb5;
+        border-radius: 5px;
+        padding: 12px;
+        margin-bottom: 20px;
+        font-size: 14px;
+      }
+
+      .success-message {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+        border-radius: 5px;
+        padding: 12px;
+        margin-bottom: 20px;
+        font-size: 14px;
+      }
+
+      .security-info {
+        font-size: 12px;
+        color: #999;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .security-badges {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+      }
+
+      @media (max-width: 480px) {
+        .signup-container {
+          margin: 20px;
+          padding: 30px 20px;
+        }
+
+        .step-indicator {
+          flex-wrap: wrap;
+        }
+
+        .step {
+          width: 25px;
+          height: 25px;
+          font-size: 12px;
+          margin: 2px;
+        }
+
+        .price {
+          font-size: 2.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="signup-container">
+      <div class="logo">A Final Message</div>
+
+      <div class="step-indicator">
+        <div class="step completed">1</div>
+        <div class="step completed">2</div>
+        <div class="step completed">3</div>
+        <div class="step completed">4</div>
+        <div class="step active">5</div>
+        <div class="step">6</div>
+        <div class="step">7</div>
+      </div>
+
+      <h1>Secure Your Service</h1>
+      <p class="subtitle">
+        Complete your subscription to activate your final message service
+      </p>
+
+      <div class="pricing-card">
+        <div class="price">$19.95</div>
+        <div class="price-period">per year</div>
+        <ul class="features">
+          <li>Unlimited final messages</li>
+          <li>Secure encrypted storage</li>
+          <li>Multiple contact management</li>
+          <li>Automatic check-in system</li>
+          <li>24/7 reliable monitoring</li>
+          <li>Email & SMS notifications</li>
+        </ul>
+      </div>
+
+      <div class="demo-notice">
+        <h3>🔍 Demo Mode Active</h3>
+        <p>
+          This is a demonstration version. No actual payment will be processed.
+          Click "Complete Payment" to simulate a successful payment and continue
+          with the signup process.
+        </p>
+      </div>
+
+      <form id="paymentForm">
+        <div class="card-element" id="card-element">
+          💳 Demo Mode - No real payment required
+        </div>
+
+        <button type="submit" class="btn">
+          Complete Payment ($19.95/year)
+        </button>
+        <button type="button" class="btn btn-secondary" onclick="goBack()">
+          Back
+        </button>
+      </form>
+
+      <div class="security-info">
+        <div class="security-badges">
+          <span>🔒 SSL Secured</span>
+          <span>💳 Stripe Protected</span>
+          <span>🛡️ PCI Compliant</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let userData = {};
+
+      // Load user data from session storage
+      document.addEventListener("DOMContentLoaded", function () {
+        const storedData = sessionStorage.getItem("afinalmessage_signup");
+        if (storedData) {
+          userData = JSON.parse(storedData);
+        } else {
+          showError("Session expired. Please start over.");
+          setTimeout(() => {
+            window.location.href = "/signup";
+          }, 2000);
+          return;
+        }
+      });
+
+      // Form submission
+      document
+        .getElementById("paymentForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const submitBtn = e.target.querySelector('button[type="submit"]');
+
+          clearMessages();
+
+          submitBtn.disabled = true;
+          submitBtn.classList.add("loading");
+          submitBtn.textContent = "Processing Payment";
+
+          try {
+            // Simulate payment processing in demo mode
+            showSuccess("Processing payment...");
+
+            await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate processing time
+
+            const response = await fetch("/api/signup/process-payment", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                paymentMethodId: "demo_payment_method",
+                name: userData.name,
+                email: userData.email,
+                phone: userData.phone,
+              }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+              // Update session storage with payment info
+              userData.customerId = data.customerId;
+              userData.subscriptionId = data.subscriptionId;
+              sessionStorage.setItem(
+                "afinalmessage_signup",
+                JSON.stringify(userData)
+              );
+
+              showSuccess("Payment successful! Redirecting...");
+              setTimeout(() => {
+                window.location.href = "/signup/innercirclecontact.html";
+              }, 1500);
+            } else {
+              showError(data.error || "Payment failed. Please try again.");
+            }
+          } catch (error) {
+            showError(
+              "Payment processing error. Please check your connection and try again."
+            );
+          } finally {
+            submitBtn.disabled = false;
+            submitBtn.classList.remove("loading");
+            submitBtn.textContent = "Complete Payment ($19.95/year)";
+          }
+        });
+
+      function goBack() {
+        window.history.back();
+      }
+
+      function showError(message) {
+        clearMessages();
+        const errorDiv = document.createElement("div");
+        errorDiv.className = "error-message";
+        errorDiv.textContent = message;
+
+        const form = document.getElementById("paymentForm");
+        form.parentNode.insertBefore(errorDiv, form);
+      }
+
+      function showSuccess(message) {
+        clearMessages();
+        const successDiv = document.createElement("div");
+        successDiv.className = "success-message";
+        successDiv.textContent = message;
+
+        const form = document.getElementById("paymentForm");
+        form.parentNode.insertBefore(successDiv, form);
+      }
+
+      function clearMessages() {
+        const messages = document.querySelectorAll(
+          ".error-message, .success-message"
+        );
+        messages.forEach((msg) => msg.remove());
+      }
+    </script>
+  </body>
+</html>
