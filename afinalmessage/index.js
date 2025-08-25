@@ -79,8 +79,53 @@ const twilio = require("twilio");
 const sgMail = require("@sendgrid/mail");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
+const express = require('express');
+const path = require('path');
+
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Serve static files from public directory
+app.use(express.static('public'));
+
+// Parse JSON bodies
+app.use(express.json());
+
+// Serve main page
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Serve signup pages
+app.get('/signup', (req, res) => {
+    res.sendFile(path.join(__dirname, 'signup', 'signup.html'));
+});
+
+app.get('/signup/step2', (req, res) => {
+    res.sendFile(path.join(__dirname, 'signup', 'step2.html'));
+});
+
+app.get('/signup/step3', (req, res) => {
+    res.sendFile(path.join(__dirname, 'signup', 'step3.html'));
+});
+
+// API endpoints for your Dead Man's Switch functionality
+app.post('/api/signup', (req, res) => {
+    // Handle signup logic here
+    console.log('Signup request:', req.body);
+    res.json({ success: true, message: 'Signup successful' });
+});
+
+app.post('/api/message', (req, res) => {
+    // Handle message storage logic here
+    console.log('Message request:', req.body);
+    res.json({ success: true, message: 'Message saved' });
+});
+
+// Start the server
+app.listen(port, () => {
+    console.log(`Dead Man's Switch server running on port ${port}`);
+});
 
 // Admin credentials (in production, use environment variables)
 const ADMIN_CREDENTIALS = {
